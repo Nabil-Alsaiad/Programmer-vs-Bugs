@@ -11,6 +11,7 @@
 #include "pf/helper.h"
 #include <iostream>
 #include <string>
+#include "setgame.h"
 
 using namespace std;
 
@@ -21,6 +22,8 @@ int main()
     cout << "Assignment (Part 1) by " + names << endl;
     cout << "Let's Get Started!" << endl;
     pf::Pause();
+
+    
 
     return 1;
 }

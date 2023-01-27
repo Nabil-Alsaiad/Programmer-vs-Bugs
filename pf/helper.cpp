@@ -1,6 +1,7 @@
 #include "helper.h"
 #include <cstdlib>
 #include <iostream>
+#include "setgame.h"
 
 namespace pf
 {
