@@ -1,7 +1,6 @@
 #include "helper.h"
 #include <cstdlib>
 #include <iostream>
-#include "setgame.h"
 
 namespace pf
 {
@@ -11,33 +10,33 @@ namespace pf
 
     int ClearScreen()
     {
-        #if defined(_WIN32)
-            return std::system("cls");
-        #elif defined(__linux__) || defined(__APPLE__)
-            return std::system("clear");
-        #endif
+#if defined(_WIN32)
+        return std::system("cls");
+#elif defined(__linux__) || defined(__APPLE__)
+        return std::system("clear");
+#endif
     }
 
     int Pause()
     {
-        #if defined(_WIN32)
-            return std::system("pause");
-        #elif defined(__linux__) || defined(__APPLE__)
-            return std::system(R"(read -p "Press any key to continue . . . " dummy)");
-        #endif
+#if defined(_WIN32)
+        return std::system("pause");
+#elif defined(__linux__) || defined(__APPLE__)
+        return std::system(R"(read -p "Press any key to continue . . . " dummy)");
+#endif
     }
 
     void CreateGameBoard()
     {
         for (int row = 0; row < kRows; ++row)
-        for (int col = 0; col < kColumns; ++col)
-        {
-            int random_number = std::rand() % 2;
-            if (random_number)
-                kBoard[row][col] = '*';
-            else
-                kBoard[row][col] = 'r';
-        }
+            for (int col = 0; col < kColumns; ++col)
+            {
+                int random_number = std::rand() % 2;
+                if (random_number)
+                    kBoard[row][col] = '*';
+                else
+                    kBoard[row][col] = 'r';
+            }
     }
 
     void ShowGameBoard()
@@ -50,6 +49,5 @@ namespace pf
             }
             std::cout << std::endl;
         }
-            
     }
 }
