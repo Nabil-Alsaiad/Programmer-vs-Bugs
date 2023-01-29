@@ -5,13 +5,12 @@
 
 class Empty
 {
-public:
-    bool GetHastTrial();
-
 
 private:
-    bool GetHasTreal();
+    bool getHasTrial();
 
+public:
+    bool getHastTrial();
 };
 
 #endif

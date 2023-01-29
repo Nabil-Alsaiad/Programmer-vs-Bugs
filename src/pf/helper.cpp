@@ -4,9 +4,9 @@
 
 namespace pf
 {
-    const int kRows = 3;
-    const int kColumns = 5;
-    char kBoard[kRows][kColumns];
+    const int yMax = 3;
+    const int xMax = 5;
+    char kBoard[yMax][xMax];
 
     int ClearScreen()
     {
@@ -28,24 +28,24 @@ namespace pf
 
     void CreateGameBoard()
     {
-        for (int row = 0; row < kRows; ++row)
-            for (int col = 0; col < kColumns; ++col)
+        for (int y = 0; y < yMax; ++y)
+            for (int x = 0; x < xMax; ++x)
             {
                 int random_number = std::rand() % 2;
                 if (random_number)
-                    kBoard[row][col] = '*';
+                    kBoard[y][x] = '*';
                 else
-                    kBoard[row][col] = 'r';
+                    kBoard[y][x] = 'r';
             }
     }
 
     void ShowGameBoard()
     {
-        for (int row = 0; row < kRows; ++row)
+        for (int y = 0; y < yMax; ++y)
         {
-            for (int col = 0; col < kColumns; ++col)
+            for (int x = 0; x < xMax; ++x)
             {
-                std::cout << kBoard[row][col];
+                std::cout << kBoard[y][x];
             }
             std::cout << std::endl;
         }

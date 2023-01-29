@@ -5,13 +5,12 @@
 
 class Arrow
 {
+private:
+    char direction;
+
 public:
     char getDirection();
     void changeDirection();
-
-private:
-    char direcion;
-
 };
 
 #endif

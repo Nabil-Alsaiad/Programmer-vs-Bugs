@@ -5,11 +5,8 @@
 
 class Alien
 {
-public:
-    
-
 private:
-
+public:
 };
 
 #endif
