@@ -13,13 +13,13 @@ Stats::Stats(int maxHealth, int damage, int range)
 
 string Stats::toString() const
 {
-    string healthString = "Health: " + health_;
-    string damageString = "Damage: " + damage_;
+    string healthString = "Health: " + to_string(health_);
+    string damageString = "Damage: " + to_string(damage_);
 
     string rangeString = "";
     if (range_ > 0)
     {
-        rangeString = "Range: " + range_;
+        rangeString = "Range: " + to_string(range_);
     }
 
     return healthString + ", " + damageString + ", " + rangeString;

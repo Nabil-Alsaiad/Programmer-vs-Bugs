@@ -16,41 +16,42 @@ void Rounds::resetRound()
     gameRound_ = 1;
 }
 
-bool Rounds::isPlayerRound(const Units &units)
-{
-    return gameRound_ <= units.getPlayersType().getCount();
-}
-
 void Rounds::drawRoundBoard(const Units &units)
 {
-    int allCount = units.getPlayersType().getCount();
-    +units.getEnemiesType().getCount();
+    int pCount = units.getPlayersType().getCount();
+    int eCount = units.getEnemiesType().getCount();
+    int allCount = pCount + eCount;
 
-    if (gameRound_ >= allCount)
+    // cout << "allCount: " << allCount << endl;
+    // cout << "gameRound_: " << gameRound_ << endl;
+
+    if (gameRound_ > allCount)
     {
         resetRound();
     }
 
-    cout << "allCount: " << allCount << endl;
+    cout << "Units" << endl
+         << "-----------------------------------------" << endl;
 
     for (int i = 0; i < allCount; i++)
     {
+        // cout << "i: " << i << endl;
         string info;
 
-        if (isPlayerRound(units))
+        if (i < pCount)
         {
-            cout << "gameRound_ - 1: " << gameRound_ - 1 << endl;
-            info = units.getPlayers().at(gameRound_ - 1).toString();
+            // cout << "player index: " << i << endl;
+            // cout << "Players().size(): " << units.getPlayers().size() << endl;
+            // cout << "-----------------------------------------" << endl;
+            info = units.getPlayers().at(i).toString();
         }
         else
         {
-            cout << "gameRound_ - units.getPlayersType().getCount() - 1: " << gameRound_ - units.getPlayersType().getCount() - 1 << endl;
-            info = units.getEnemies().at(gameRound_ - units.getPlayersType().getCount() - 1).toString();
+            // cout << "enemy index: " << i - units.getPlayersType().getCount() << endl;
+            // cout << "Enemies().size(): " << units.getEnemies().size() << endl;
+            // cout << "-----------------------------------------" << endl;
+            info = units.getEnemies().at(i - units.getPlayersType().getCount()).toString();
         }
-
-        cout << "info: " << info << endl;
-        cout << "gameRound: " << gameRound_ << endl;
-        cout << "i: " << i << endl;
 
         bool isRound = i == gameRound_ - 1;
         cout << (isRound ? "-> " : "   ") << info << endl;

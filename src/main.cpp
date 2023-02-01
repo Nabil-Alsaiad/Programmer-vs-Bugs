@@ -32,22 +32,23 @@ int main()
 
      cout << "Assignment (Part 1) by " + names << endl;
 
-     Rounds rounds;
-     Units units;
-     Board board;
-     Setting setting;
-
-     units.fillUnitsInBoard(board);
+     Setting settings;
 
      while (true)
      {
           ClearScreen();
 
-          if (setting.viewPage())
+          if (settings.viewPage())
           {
                break;
           }
      }
+
+     Board board;
+     Units units;
+     Rounds rounds;
+
+     units.fillUnitsInBoard(board);
 
      while (true)
      {

@@ -19,9 +19,6 @@ void Units::fillUnitsInBoard(Board &board)
     players_.clear();
     enemies_.clear();
 
-    cout << "Players: " << players_.size() << endl;
-    cout << "Enemies: " << enemies_.size() << endl;
-
     while (pCount > 0 || eCount > 0)
     {
         randomPosition = board.getRandomPoint();
@@ -60,18 +57,18 @@ void Units::fillUnitsInBoard(Board &board)
         }
     }
 
-    cout << "player vector length" << players_.size() << endl;
-    cout << "enemy vector length" << enemies_.size() << endl;
+    players_.shrink_to_fit();
+    enemies_.shrink_to_fit();
 }
 
 vector<Unit> Units::getPlayers() const
 {
-    return vector<Unit>();
+    return players_;
 }
 
 vector<Unit> Units::getEnemies() const
 {
-    return vector<Unit>();
+    return enemies_;
 }
 
 UnitsType Units::getPlayersType() const
