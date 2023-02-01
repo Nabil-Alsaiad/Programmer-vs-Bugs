@@ -7,9 +7,6 @@ namespace pf
 {
     int ClearScreen();
     int Pause();
-
-    void CreateGameBoard();
-    void ShowGameBoard();
 }
 
 #endif

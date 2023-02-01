@@ -1,15 +1,17 @@
 #include "point.h"
 #include <iostream>
 
+using namespace std;
+
 Point::Point(int x, int y)
 {
     this->x = x;
     this->y = y;
 }
 
-std::string Point::toString() const
+string Point::toString() const
 {
-    std::string xString = std::to_string(this->x);
-    std::string yString = std::to_string(this->y);
+    string xString = to_string(this->x);
+    string yString = to_string(this->y);
     return "(" + xString + ", " + yString + ")";
 }

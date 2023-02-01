@@ -16,21 +16,18 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <cstdlib> // for system()
-#include <ctime>   // for time() in srand( time(NULL) );
-#include <iomanip> // for setw()
+#include <ctime>
 
 using namespace std;
+using namespace pf;
 
 string names = "[Nabil Alsaiad, Hilmi Zaki, Asem Maroof]";
 
 int main()
 {
-     // srand(1); // fixed map
-     srand(time(NULL)); // random map
+     srand(time(NULL));
 
-     cout << "Assignment (Part 1) by " + names << endl
-          << "Let's Get Started!" << endl;
+     cout << "Assignment (Part 1) by " + names << endl;
 
      Board board;
      Point randomPosition;
@@ -41,7 +38,7 @@ int main()
           randomPosition = board.getRandomPoint();
           if (!board.isInsideMap(randomPosition))
           {
-               throw std::runtime_error("Point: " + randomPosition.toString() + " is outside of map");
+               throw runtime_error("Point: " + randomPosition.toString() + " is outside of map");
           }
 
           if (board.isEmpty(randomPosition))
@@ -63,8 +60,8 @@ int main()
 
      while (true)
      {
-          pf::ClearScreen();
+          ClearScreen();
           board.display();
-          pf::Pause();
+          Pause();
      }
 }

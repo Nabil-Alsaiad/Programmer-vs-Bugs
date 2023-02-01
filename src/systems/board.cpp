@@ -1,11 +1,7 @@
 #include "board.h"
 #include "point.h"
 #include <iostream>
-#include <string>
-#include <vector>
-#include <cstdlib> // for system()
-#include <ctime>   // for time() in srand( time(NULL) );
-#include <iomanip> // for setw()
+#include <iomanip>
 
 using namespace std;
 

@@ -3,12 +3,14 @@
 
 #include <string>
 
+using namespace std;
+
 struct Point
 {
 public:
     int x, y;
     Point(int x = 0, int y = 0);
-    std::string toString() const;
+    string toString() const;
 };
 
 #endif
