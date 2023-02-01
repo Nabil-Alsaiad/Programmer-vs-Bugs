@@ -26,8 +26,6 @@ bool checkInput()
              //  << "- s/save -> Save the game.\n"
              //  << "- ld/load -> Load the game.\n"
              << "- q/quit -> Quit the game.\n";
-
-        return false;
     }
     // else if (input == "u" || input == "up")
     // {
@@ -77,4 +75,6 @@ bool checkInput()
     {
         cout << "Unknown command. Type 'h' for list of commands.\n";
     }
+
+    return false;
 }
