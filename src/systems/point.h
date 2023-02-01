@@ -1,6 +1,8 @@
 #ifndef POINT_H
 #define POINT_H
 
+#pragma once
+
 #include <string>
 
 using namespace std;

@@ -1,5 +1,4 @@
 #include "unitstype.h"
-#include "stats.h"
 #include <string>
 
 using namespace std;

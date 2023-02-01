@@ -16,7 +16,7 @@ private:
     int count_;
 
 public:
-    UnitsType(string name, char symbol, int count);
+    UnitsType(string name = "name", char symbol = ' ', int count = 1);
 
     string getName() const;
     char getSymbol() const;

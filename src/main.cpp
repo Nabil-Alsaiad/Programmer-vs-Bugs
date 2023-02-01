@@ -16,7 +16,9 @@
 #include "pf/helper.cpp"
 #include "systems/board.cpp"
 #include "systems/point.cpp"
-#include "systems/unitsmanager.cpp"
+#include "systems/units.cpp"
+#include "systems/rounds.cpp"
+#include "units/stats.cpp"
 #include "settings.cpp"
 
 using namespace std;
@@ -30,15 +32,19 @@ int main()
 
      cout << "Assignment (Part 1) by " + names << endl;
 
+     Rounds rounds;
+     Units units;
      Board board;
      Setting setting;
 
-     fillUnitsInBoard(board);
+     units.fillUnitsInBoard(board);
 
-     while (true){
+     while (true)
+     {
           ClearScreen();
 
-          if (setting.viewPage()){
+          if (setting.viewPage())
+          {
                break;
           }
      }
@@ -46,7 +52,10 @@ int main()
      while (true)
      {
           ClearScreen();
+
           board.display();
+          rounds.drawRoundBoard(units);
+
           Pause();
      }
 }

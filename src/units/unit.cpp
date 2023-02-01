@@ -1,3 +1,8 @@
+#ifndef UNIT_CPP
+#define UNIT_CPP
+
+#pragma once
+
 #include "unit.h"
 #include <string>
 
@@ -16,6 +21,8 @@ Unit::Unit(const UnitsType &type, const Stats &stats, const int index)
 
 string Unit::toString() const
 {
-    string identifier = TYPE_P->getName() + " " + to_string(index_) + " : ";
+    string identifier = TYPE_P->getName() + " " + to_string(index_ + 1) + " : ";
     return identifier + stats_.toString();
 }
+
+#endif
