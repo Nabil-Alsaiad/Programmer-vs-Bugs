@@ -6,7 +6,7 @@ You as a programmer must get rid of all bugs in order to have happier customers.
 
 ![image](https://user-images.githubusercontent.com/73927632/216097719-ec48dfb5-459b-4999-b174-8560ab962854.png)
 
-A YouTube video link of the game, [Click here to watch](https://youtube.com).
+A YouTube videos of the game playlist link, [Click here to watch](https://youtube.com/playlist?list=PLVhmJfFMWiivr1c07V-rWZlTWjDnynAfK).
 
 ## Compilation Instructions
 
