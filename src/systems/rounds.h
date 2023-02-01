@@ -3,6 +3,9 @@
 
 #pragma once
 
+#include "board.h"
+#include "units.h"
+
 class Rounds
 {
 private:
@@ -11,9 +14,12 @@ private:
 public:
     Rounds();
 
-    void resetRound();
     bool isPlayerRound(const Units &units);
     void drawRoundBoard(const Units &units);
+
+    // void playRound(Board &board, const Units &units);
+    void playRound(const Units &units);
+    void resetRound();
 };
 
 #endif

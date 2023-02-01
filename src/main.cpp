@@ -24,13 +24,9 @@
 using namespace std;
 using namespace pf;
 
-string names = "[Nabil Alsaiad, Hilmi Zaki, Asem Maroof]";
-
 int main()
 {
      srand(time(NULL));
-
-     cout << "Assignment (Part 1) by " + names << endl;
 
      Setting settings;
 
@@ -43,7 +39,8 @@ int main()
           }
      }
 
-     Board board(settings.getColumnCount(), settings.getRowCount());
+     Point dimensions(settings.getColumnCount(), settings.getRowCount());
+     Board board(dimensions);
      Units units(1, settings.getZombieCount());
      Rounds rounds;
 
@@ -55,7 +52,6 @@ int main()
 
           board.display();
           rounds.drawRoundBoard(units);
-
-          Pause();
+          rounds.playRound(units);
      }
 }

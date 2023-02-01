@@ -17,16 +17,9 @@ void Units::fillUnitsInBoard(Board &board)
     int pCount = playersType_.getCount();
     int eCount = enemiesType_.getCount();
 
-    players_.clear();
-    enemies_.clear();
-
     while (pCount > 0 || eCount > 0)
     {
         randomPosition = board.getRandomPoint();
-        if (!board.isInsideMap(randomPosition))
-        {
-            throw runtime_error("Point: " + randomPosition.toString() + " is outside of map");
-        }
 
         if (board.isEmpty(randomPosition))
         {
@@ -65,9 +58,6 @@ void Units::fillUnitsInBoard(Board &board)
             }
         }
     }
-
-    players_.shrink_to_fit();
-    enemies_.shrink_to_fit();
 }
 
 vector<Unit> Units::getPlayers() const

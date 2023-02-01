@@ -12,13 +12,16 @@ Setting::Setting(int rows, int columns, int zombies)
 
 bool Setting::viewPage()
 {
+    cout << "Made by:\n1. Nabil Alsaiad\n2. Hilmi Zaki\n3. Asem Maroof" << endl
+         << "----------------------" << endl;
+
     cout << "Default  settings" << endl
-         << "------------------" << endl;
+         << "----------------------" << endl;
 
     cout << "Columns:  " << columnCount_ << endl;
     cout << "Rows:  " << rowCount_ << endl;
     cout << "Zombies:  " << zombieCount_ << endl;
-    cout << "------------------" << endl;
+    cout << "----------------------" << endl;
 
     bool wantToChange = false;
     string answer = "";

@@ -5,15 +5,14 @@
 
 using namespace std;
 
-Board::Board(int dimX, int dimY)
+Board::Board(Point dim)
 {
-    init(dimX, dimY);
+    init(dim);
 }
 
-void Board::init(int dimX, int dimY)
+void Board::init(const Point &dim)
 {
-    dimX_ = dimX;
-    dimY_ = dimY;
+    dim_ = dim;
     char objects[] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
                       'a', 'd', 's', '<', '>', 'v', '^'};
     // a = artificial intelligence (pod)
@@ -21,17 +20,15 @@ void Board::init(int dimX, int dimY)
     // s = search (rock)
     int numberOfObjects = 12;
 
-    // create dynamic 2D array using vector
-    map_.resize(dimY_); // create empty rows
-    for (int i = 0; i < dimY_; ++i)
+    map_.resize(dim_.y);
+    for (int i = 0; i < dim_.y; ++i)
     {
-        map_[i].resize(dimX_); // resize each row
+        map_[i].resize(dim_.x);
     }
 
-    // put random characters into the vector array
-    for (int i = 0; i < dimY_; ++i)
+    for (int i = 0; i < dim_.y; ++i)
     {
-        for (int j = 0; j < dimX_; ++j)
+        for (int j = 0; j < dim_.x; ++j)
         {
             int objNo = rand() % numberOfObjects;
             map_[i][j] = objects[objNo];
@@ -41,67 +38,89 @@ void Board::init(int dimX, int dimY)
 
 int Board::getDimX() const
 {
-    return dimX_;
+    return dim_.x;
 }
 
 int Board::getDimY() const
 {
-    return dimY_;
+    return dim_.x;
 }
 
-char Board::getObject(Point position) const
+char Board::getObject(const Point &position) const
 {
-    return map_[dimY_ - position.y][position.x - 1];
+    return map_[dim_.y - position.y][position.x - 1];
 }
 
-void Board::setObject(Point position, char ch)
+void Board::setObject(const Point &position, char ch)
 {
-    map_[dimY_ - position.y][position.x - 1] = ch;
+    map_[dim_.y - position.y][position.x - 1] = ch;
 }
 
 void Board::setObjectAtCenter(char ch)
 {
-    map_[dimY_ / 2][dimX_ / 2] = ch;
+    map_[dim_.y / 2][dim_.x / 2] = ch;
 }
 
-bool Board::isEmpty(Point position) const
+bool Board::isEmpty(const Point &position) const
 {
-    return map_[dimY_ - position.y][position.x - 1] == ' ';
+    return map_[dim_.y - position.y][position.x - 1] == ' ';
 }
 
-bool Board::isInsideMap(Point position) const
+bool Board::isInsideMap(const Point &position) const
 {
-    bool inMapHorizontally = position.x > 0 && position.x <= dimX_;
-    bool inMapVertically = position.y > 0 && position.y <= dimY_;
+    bool inMapHorizontally = position.x > 0 && position.x <= dim_.x;
+    bool inMapVertically = position.y > 0 && position.y <= dim_.y;
     return inMapHorizontally && inMapVertically;
 }
 
 Point Board::getRandomPoint() const
 {
-    int randomX = rand() % dimX_ + 1;
-    int randomY = rand() % dimY_ + 1;
+    int randomX = rand() % dim_.x + 1;
+    int randomY = rand() % dim_.y + 1;
 
     return Point(randomX, randomY);
 }
 
+// Point Board::move(Point &position, char direction, int distance) const
+// {
+//     switch (direction)
+//     {
+//     case '^':
+//         position.y++;
+//         return position;
+
+//     case 'v':
+//         position.y--;
+//         return position;
+
+//     case '>':
+//         position.x++;
+//         return position;
+
+//     default:
+//         position.x--;
+//         return position;
+//     }
+// }
+
 void Board::display() const
 {
 #pragma region each row
-    for (int i = 0; i < dimY_; ++i)
+    for (int i = 0; i < dim_.y; ++i)
     {
         // display upper border of the row
-        cout << " ";
-        for (int j = 0; j < dimX_; ++j)
+        cout << "  ";
+        for (int j = 0; j < dim_.x; ++j)
         {
             cout << "+-";
         }
         cout << "+" << endl;
 
         // display row number
-        cout << setw(2) << (dimY_ - i);
+        cout << setw(2) << (dim_.y - i);
 
         // display cell content and border of each column
-        for (int j = 0; j < dimX_; ++j)
+        for (int j = 0; j < dim_.x; ++j)
         {
             cout << "|" << map_[i][j];
         }
@@ -111,7 +130,7 @@ void Board::display() const
 
 #pragma region lower border of the last row
     cout << "  ";
-    for (int j = 0; j < dimX_; ++j)
+    for (int j = 0; j < dim_.x; ++j)
     {
         cout << "+-";
     }
@@ -120,7 +139,7 @@ void Board::display() const
 
 #pragma region column number
     cout << "  ";
-    for (int j = 0; j < dimX_; ++j)
+    for (int j = 0; j < dim_.x; ++j)
     {
         int digit = (j + 1) / 10;
         cout << " ";
@@ -132,7 +151,7 @@ void Board::display() const
     }
     cout << endl;
     cout << "  ";
-    for (int j = 0; j < dimX_; ++j)
+    for (int j = 0; j < dim_.x; ++j)
     {
         cout << " " << (j + 1) % 10;
     }
