@@ -19,7 +19,7 @@
 #include "systems/units.cpp"
 #include "systems/rounds.cpp"
 #include "units/stats.cpp"
-#include "settings.cpp"
+#include "user/settings.cpp"
 
 using namespace std;
 using namespace pf;
@@ -44,8 +44,8 @@ int main()
           }
      }
 
-     Board board;
-     Units units;
+     Board board(settings.getColumnCount(), settings.getRowCount());
+     Units units(1, settings.getZombieCount());
      Rounds rounds;
 
      units.fillUnitsInBoard(board);

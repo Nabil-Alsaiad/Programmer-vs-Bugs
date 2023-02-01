@@ -16,6 +16,12 @@ void Rounds::resetRound()
     gameRound_ = 1;
 }
 
+bool Rounds::isPlayerRound(const Units &units)
+{
+    bool checkYes = gameRound_ < units.getPlayersType().getCount();
+    return checkYes;
+}
+
 void Rounds::drawRoundBoard(const Units &units)
 {
     int pCount = units.getPlayersType().getCount();

@@ -1,9 +1,9 @@
 #include "units.h"
 
-Units::Units()
+Units::Units(int playerCount, int enemyCount)
 {
-    playersType_ = UnitsType("programmer", 'P', 1);
-    enemiesType_ = UnitsType("bug", 'B', 2);
+    playersType_ = UnitsType("programmer", 'P', playerCount);
+    enemiesType_ = UnitsType("bug", 'B', enemyCount);
 
     players_ = vector<Unit>();
     enemies_ = vector<Unit>();

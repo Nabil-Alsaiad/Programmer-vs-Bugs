@@ -23,7 +23,7 @@ private:
     UnitsType enemiesType_;
 
 public:
-    Units();
+    Units(int playerCount = 1, int enemyCount = 2);
 
     void fillUnitsInBoard(Board &board);
 
