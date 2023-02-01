@@ -51,3 +51,13 @@ void Stats::heal(int amount)
         health_ = maxHealth_;
     }
 }
+
+void Stats::increaseDamage(int amount)
+{
+    damage_ += amount;
+}
+
+void Stats::resetDamage()
+{
+    damage_ = 0;
+}

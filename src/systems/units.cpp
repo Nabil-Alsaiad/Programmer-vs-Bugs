@@ -12,6 +12,7 @@ Units::Units(int playerCount, int enemyCount)
 void Units::fillUnitsInBoard(Board &board)
 {
     Point randomPosition;
+    bool first = true;
 
     int pCount = playersType_.getCount();
     int eCount = enemiesType_.getCount();
@@ -53,7 +54,15 @@ void Units::fillUnitsInBoard(Board &board)
                 eCount--;
             }
 
-            board.setObject(randomPosition, unitSymbol);
+            if (first)
+            {
+                first = false;
+                board.setObjectAtCenter(unitSymbol);
+            }
+            else
+            {
+                board.setObject(randomPosition, unitSymbol);
+            }
         }
     }
 

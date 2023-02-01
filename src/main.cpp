@@ -37,7 +37,6 @@ int main()
      while (true)
      {
           ClearScreen();
-
           if (settings.viewPage())
           {
                break;

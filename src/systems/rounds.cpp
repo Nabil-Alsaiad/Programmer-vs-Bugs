@@ -28,9 +28,6 @@ void Rounds::drawRoundBoard(const Units &units)
     int eCount = units.getEnemiesType().getCount();
     int allCount = pCount + eCount;
 
-    // cout << "allCount: " << allCount << endl;
-    // cout << "gameRound_: " << gameRound_ << endl;
-
     if (gameRound_ > allCount)
     {
         resetRound();
@@ -46,16 +43,10 @@ void Rounds::drawRoundBoard(const Units &units)
 
         if (i < pCount)
         {
-            // cout << "player index: " << i << endl;
-            // cout << "Players().size(): " << units.getPlayers().size() << endl;
-            // cout << "-----------------------------------------" << endl;
             info = units.getPlayers().at(i).toString();
         }
         else
         {
-            // cout << "enemy index: " << i - units.getPlayersType().getCount() << endl;
-            // cout << "Enemies().size(): " << units.getEnemies().size() << endl;
-            // cout << "-----------------------------------------" << endl;
             info = units.getEnemies().at(i - units.getPlayersType().getCount()).toString();
         }
 

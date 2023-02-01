@@ -14,8 +14,11 @@ void Board::init(int dimX, int dimY)
 {
     dimX_ = dimX;
     dimY_ = dimY;
-    char objects[] = {' ', ' ', ' ', ' ', ' ', ' ',
-                      'h', 'r', 'p', '#', '@', '$'};
+    char objects[] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+                      'a', 'd', 's', '<', '>', 'v', '^'};
+    // a = artificial intelligence (pod)
+    // d = documentation (health pack)
+    // s = search (rock)
     int numberOfObjects = 12;
 
     // create dynamic 2D array using vector
@@ -50,18 +53,27 @@ char Board::getObject(Point position) const
 {
     return map_[dimY_ - position.y][position.x - 1];
 }
+
 void Board::setObject(Point position, char ch)
 {
     map_[dimY_ - position.y][position.x - 1] = ch;
+}
+
+void Board::setObjectAtCenter(char ch)
+{
+    map_[dimY_ / 2][dimX_ / 2] = ch;
 }
 
 bool Board::isEmpty(Point position) const
 {
     return map_[dimY_ - position.y][position.x - 1] == ' ';
 }
+
 bool Board::isInsideMap(Point position) const
 {
-    return (position.x > 0 && position.x <= dimX_) && (position.y > 0 && position.y <= dimY_);
+    bool inMapHorizontally = position.x > 0 && position.x <= dimX_;
+    bool inMapVertically = position.y > 0 && position.y <= dimY_;
+    return inMapHorizontally && inMapVertically;
 }
 
 Point Board::getRandomPoint() const

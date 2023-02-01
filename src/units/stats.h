@@ -19,8 +19,11 @@ public:
 
     string toString() const;
 
-    bool takeDamage(int damage = 10);
-    void heal(int amount = 10);
+    bool takeDamage(int damage);
+    void heal(int amount);
+
+    void increaseDamage(int amount);
+    void resetDamage();
 };
 
 #endif

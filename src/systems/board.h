@@ -24,6 +24,7 @@ public:
 
     char getObject(Point position) const;
     void setObject(Point position, char ch);
+    void setObjectAtCenter(char ch);
 
     bool isEmpty(Point position) const;
     bool isInsideMap(Point position) const;
