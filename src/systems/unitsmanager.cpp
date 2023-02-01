@@ -2,9 +2,9 @@
 #include <vector>
 #include <string>
 
-#include "../objects/units/stats.cpp"
-#include "../objects/units/unit.cpp"
-#include "../objects/units/unitstype.cpp"
+#include "../units/stats.cpp"
+#include "../units/unit.cpp"
+#include "../units/unitstype.cpp"
 #include "board.h"
 #include "point.h"
 
