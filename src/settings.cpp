@@ -4,13 +4,15 @@
 #include <iostream>
 using namespace std;
 
+#include "board.h"
+
 
 class Setting{
     private: int rowCount, columnCount, zombieCount;
 
     public: 
     Setting(int row = 5, int column = 9, int zombie = 1);
-    void viewPage();
+    bool viewPage();
 
 
 };
@@ -21,7 +23,7 @@ Setting::Setting(int  row, int column, int zombie){
     zombieCount = zombie;
 }
 
-void Setting::viewPage(){
+bool Setting::viewPage(){
     cout << "Default  settings" << endl << endl;
     cout << "------------------" << endl;
     cout << "Column:  " << columnCount << endl;
@@ -43,7 +45,7 @@ void Setting::viewPage(){
 
         else if(answers == "n"){
         wantToChange;
-        break;
+        return true;
         }
         
         
@@ -97,4 +99,6 @@ void Setting::viewPage(){
         cout << "zombies min is 1" << endl
              << "zombies max is 5" <<endl;
     }
+
+    return false;
 }

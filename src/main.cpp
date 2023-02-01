@@ -15,9 +15,9 @@
 
 #include "pf/helper.cpp"
 #include "systems/board.cpp"
-#include "systems/rover.cpp"
 #include "systems/point.cpp"
 #include "systems/unitsmanager.cpp"
+#include "settings.cpp"
 
 using namespace std;
 using namespace pf;
@@ -31,7 +31,17 @@ int main()
      cout << "Assignment (Part 1) by " + names << endl;
 
      Board board;
+     Setting setting;
+
      fillUnitsInBoard(board);
+
+     while (true){
+          ClearScreen();
+
+          if (setting.viewPage()){
+               break;
+          }
+     }
 
      while (true)
      {
