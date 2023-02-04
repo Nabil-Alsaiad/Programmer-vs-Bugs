@@ -32,28 +32,28 @@ void printCommands()
 
 void checkMoveCommand(Board &board)
 {
+    string input;
+
     while (true)
     {
-
-        string input;
-
-        cout << "Provide movement direction> (u|d|r|l)" << endl;
+        cout << "Provide movement direction> (u/up | d/down | r/right | l/left)" << endl;
         cin >> input;
 
-        board.movePlayer(convertDirectionToArrow(input));
-        if (input == "u" || input == "up")
+        bool isUp = input == "u" || input == "up";
+        bool isDown = input == "d" || input == "down";
+        bool isRight = input == "r" || input == "right";
+        bool isLeft = input == "l" || input == "left";
+
+        if (isUp || isDown || isRight || isLeft)
         {
+            break;
         }
-        else if (input == "d" || input == "down")
-        {
-        }
-        else if (input == "r" || input == "right")
-        {
-        }
-        else if (input == "l" || input == "left")
-        {
-        }
+
+        cout << "Wrong input!" << endl;
     }
+
+    char arrow = convertDirectionToArrow(input);
+    board.movePlayer(arrow);
 }
 
 void checkArrowCommand(Board &board)

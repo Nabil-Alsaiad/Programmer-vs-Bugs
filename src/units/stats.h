@@ -24,5 +24,6 @@ public:
 
     void increaseDamage(int amount);
     void resetDamage();
+};
 
 #endif

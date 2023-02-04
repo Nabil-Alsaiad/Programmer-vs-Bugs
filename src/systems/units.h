@@ -8,7 +8,6 @@
 #include <string>
 #include "../units/unit.cpp"
 #include "../units/unitstype.cpp"
-#include "board.h"
 
 using namespace std;
 
@@ -24,13 +23,13 @@ private:
 public:
     Units(int enemyCount = 2);
 
-    void fillUnitsInBoard(Board &board);
-    int Units::getRandomHealth();
+    void fillUnits(Point boardCenter, vector<Point> randomPoints);
+    int getRandomHealth();
 
     Unit getPlayer() const;
     vector<Unit> getEnemies() const;
 
-    UnitsType getPlayersType() const;
+    UnitsType getPlayerType() const;
     UnitsType getEnemiesType() const;
 };
 

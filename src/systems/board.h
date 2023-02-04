@@ -20,13 +20,15 @@ public:
     Board(Units *units, Point dim = Point(15, 5));
     void init(const Point &dim);
     void display() const;
+    void fillUnits();
 
     int getDimX() const;
     int getDimY() const;
+    int checkDimX(int x) const;
+    int checkDimY(int y) const;
 
     char getObject(const Point &position) const;
     void setObject(const Point &position, char ch);
-    void setObjectAtCenter(char ch);
 
     bool isEmpty(const Point &position) const;
     bool isInsideMap(const Point &position) const;

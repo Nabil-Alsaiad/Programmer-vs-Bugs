@@ -10,7 +10,7 @@ class Rounds
 {
 private:
     Units *units_p;
-    int gameRound_ = 1;
+    int gameRound_ = 0;
 
 public:
     Rounds();
@@ -19,7 +19,6 @@ public:
     bool isPlayerRound();
     void drawRoundBoard();
 
-    // void playRound(Board &board, const Units &units);
     void increaseRound();
     void resetRound();
 };

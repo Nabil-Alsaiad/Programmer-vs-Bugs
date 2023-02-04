@@ -45,11 +45,11 @@ int main()
      Board board(&units, dimensions);
      Rounds rounds(&units);
 
-     units.fillUnitsInBoard(board);
+     board.fillUnits();
 
      while (true)
      {
-          ClearScreen();
+          // ClearScreen();
 
           board.display();
           rounds.drawRoundBoard();

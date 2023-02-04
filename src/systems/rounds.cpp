@@ -11,11 +11,13 @@ using namespace pf;
 
 Rounds::Rounds()
 {
+    resetRound();
 }
 
 Rounds::Rounds(Units *units)
 {
     units_p = units;
+    Rounds();
 }
 
 void Rounds::increaseRound()
@@ -25,22 +27,21 @@ void Rounds::increaseRound()
 
 void Rounds::resetRound()
 {
-    gameRound_ = 1;
+    gameRound_ = 0;
 }
 
 bool Rounds::isPlayerRound()
 {
-    bool checkYes = gameRound_ <= units_p->getPlayersType().getCount();
+    bool checkYes = gameRound_ <= units_p->getPlayerType().getCount();
     return checkYes;
 }
 
 void Rounds::drawRoundBoard()
 {
-    int pCount = units_p->getPlayersType().getCount();
     int eCount = units_p->getEnemiesType().getCount();
-    int allCount = pCount + eCount;
+    int allCount = 1 + eCount;
 
-    if (gameRound_ > allCount)
+    if (gameRound_ >= allCount)
     {
         resetRound();
     }
@@ -58,11 +59,10 @@ void Rounds::drawRoundBoard()
         }
         else
         {
-            int index = i - units_p->getPlayersType().getCount();
-            info = units_p->getEnemies().at(index).toString();
+            info = units_p->getEnemies().at(i - 1).toString();
         }
 
-        bool isRound = i == gameRound_ - 1;
+        bool isRound = i == gameRound_;
         cout << (isRound ? "-> " : "   ") << info << endl;
     }
 }
