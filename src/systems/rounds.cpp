@@ -5,7 +5,6 @@
 #include "units.h"
 #include "../pf/helper.h"
 #include "../units/unit.cpp"
-#include "../user/commands.cpp"
 
 using namespace std;
 using namespace pf;
@@ -14,24 +13,26 @@ Rounds::Rounds()
 {
 }
 
+void Rounds::increaseRound()
+{
+    gameRound_++;
+}
+
 void Rounds::resetRound()
 {
     gameRound_ = 1;
 }
 
 // void Rounds::playRound(Board &board, const Units &units)
-void Rounds::playRound(const Units &units)
-{
-    if (isPlayerRound(units))
-    {
-        while (checkInput())
-        {
-        }
-    }
+// {
+//     if (isPlayerRound(units))
+//     {
+//         checkInput(board);
+//     }
 
-    Pause();
-    gameRound_++;
-}
+//     Pause();
+//     gameRound_++;
+// }
 
 bool Rounds::isPlayerRound(const Units &units)
 {

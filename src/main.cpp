@@ -20,6 +20,7 @@
 #include "systems/rounds.cpp"
 #include "units/stats.cpp"
 #include "user/settings.cpp"
+#include "user/commands.cpp"
 
 using namespace std;
 using namespace pf;
@@ -52,6 +53,19 @@ int main()
 
           board.display();
           rounds.drawRoundBoard(units);
-          rounds.playRound(units);
+          // rounds.playRound(units);
+
+          if (rounds.isPlayerRound(units))
+          {
+               checkInput(board);
+          }
+          else
+          {
+               Pause();
+          }
+
+          rounds.increaseRound();
      }
+
+     return 0;
 }

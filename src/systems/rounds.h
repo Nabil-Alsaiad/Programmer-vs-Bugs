@@ -18,7 +18,7 @@ public:
     void drawRoundBoard(const Units &units);
 
     // void playRound(Board &board, const Units &units);
-    void playRound(const Units &units);
+    void increaseRound();
     void resetRound();
 };
 
