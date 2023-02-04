@@ -5,12 +5,18 @@
 
 using namespace std;
 
-char convertDirectionToArrow(char dir)
+char convertDirectionToArrow(string directionInput)
 {
-    return dir == 'u'   ? '^'
-           : dir == 'd' ? 'v'
-           : dir == 'r' ? '>'
-                        : '<';
+    bool isUp = directionInput == "u" || directionInput == "up";
+    bool isDown = directionInput == "d" || directionInput == "down";
+    bool isRight = directionInput == "r" || directionInput == "right";
+    bool isLeft = directionInput == "l" || directionInput == "left";
+
+    return isUp      ? '^'
+           : isDown  ? 'v'
+           : isRight ? '>'
+           : isLeft  ? '<'
+                     : ' ';
 }
 
 void printCommands()
@@ -24,31 +30,36 @@ void printCommands()
          << "- q/quit -> Quit the game\n";
 }
 
-void checkMoveCommand()
+void checkMoveCommand(Board &board)
 {
-    string input;
+    while (true)
+    {
 
-    cout << "Provide movement direction> (u|d|r|l)" << endl;
-    cin >> input;
+        string input;
 
-    if (input == "u" || input == "up")
-    {
-    }
-    else if (input == "d" || input == "down")
-    {
-    }
-    else if (input == "r" || input == "right")
-    {
-    }
-    else if (input == "l" || input == "left")
-    {
+        cout << "Provide movement direction> (u|d|r|l)" << endl;
+        cin >> input;
+
+        board.movePlayer(convertDirectionToArrow(input));
+        if (input == "u" || input == "up")
+        {
+        }
+        else if (input == "d" || input == "down")
+        {
+        }
+        else if (input == "r" || input == "right")
+        {
+        }
+        else if (input == "l" || input == "left")
+        {
+        }
     }
 }
 
 void checkArrowCommand(Board &board)
 {
     int x, y;
-    char dir;
+    string dir;
 
     cout << "Provide arrow location and new direction> x y (u|d|r|l)" << endl;
     cin >> x >> y >> dir;
@@ -56,7 +67,7 @@ void checkArrowCommand(Board &board)
     Point pos(x, y);
     char obj = board.getObject(pos);
 
-    // if (obj != '>' && obj != '<' && obj != '^' && obj != 'v')
+    // if (obj != ">" && obj != "<" && obj != "^" && obj != "v")
     // {
     //     cout << "Wrong location! choose again";
     // }
@@ -79,7 +90,7 @@ void checkInput(Board &board)
         }
         else if (input == "m" || input == "move")
         {
-            checkMoveCommand();
+            checkMoveCommand(board);
             break;
         }
         if (input == "a" || input == "arrow")

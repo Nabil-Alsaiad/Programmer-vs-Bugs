@@ -6,7 +6,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-
 #include "../units/unit.cpp"
 #include "../units/unitstype.cpp"
 #include "board.h"
@@ -16,18 +15,18 @@ using namespace std;
 class Units
 {
 private:
-    vector<Unit> players_;
+    Unit player_;
     vector<Unit> enemies_;
 
     UnitsType playersType_;
     UnitsType enemiesType_;
 
 public:
-    Units(int playerCount = 1, int enemyCount = 2);
+    Units(int enemyCount = 2);
 
     void fillUnitsInBoard(Board &board);
 
-    vector<Unit> getPlayers() const;
+    Unit getPlayer() const;
     vector<Unit> getEnemies() const;
 
     UnitsType getPlayersType() const;

@@ -1,68 +1,33 @@
 #include "units.h"
 
-Units::Units(int playerCount, int enemyCount)
+Units::Units(int enemyCount)
 {
-    playersType_ = UnitsType("programmer", 'P', playerCount);
+    playersType_ = UnitsType("programmer", 'P', 1);
     enemiesType_ = UnitsType("bug", 'B', enemyCount);
 
-    players_ = vector<Unit>();
+    player_ = Unit(playersType_, Stats(0, 200, 0));
     enemies_ = vector<Unit>();
 }
 
 void Units::fillUnitsInBoard(Board &board)
 {
-    Point randomPosition;
-    bool first = true;
+    player_.setPosition(board.getCenterPosition());
+    board.setObjectAtCenter(playersType_.getSymbol());
 
-    int pCount = playersType_.getCount();
-    int eCount = enemiesType_.getCount();
-
-    while (pCount > 0 || eCount > 0)
+    for (int i = 0; i < enemiesType_.getCount(); i++)
     {
-        randomPosition = board.getRandomPoint();
+        Point randomPosition = board.getRandomPoint();
 
-        if (board.isEmpty(randomPosition))
-        {
-            char unitSymbol;
-            if (pCount > 0)
-            {
-                unitSymbol = playersType_.getSymbol();
-                int index = playersType_.getCount() - pCount;
+        Unit unit(enemiesType_, Stats(10, 100, 2), randomPosition, i);
+        board.setObject(randomPosition, enemiesType_.getSymbol());
 
-                Stats stats(0, 200, 0);
-                Unit unit(playersType_, stats, index);
-
-                players_.push_back(unit);
-                pCount--;
-            }
-            else
-            {
-                unitSymbol = enemiesType_.getSymbol();
-                int index = enemiesType_.getCount() - eCount;
-
-                Stats stats(10, 100, 2);
-                Unit unit(enemiesType_, stats, index);
-
-                enemies_.push_back(unit);
-                eCount--;
-            }
-
-            if (first)
-            {
-                first = false;
-                board.setObjectAtCenter(unitSymbol);
-            }
-            else
-            {
-                board.setObject(randomPosition, unitSymbol);
-            }
-        }
+        enemies_.push_back(unit);
     }
 }
 
-vector<Unit> Units::getPlayers() const
+Unit Units::getPlayer() const
 {
-    return players_;
+    return player_;
 }
 
 vector<Unit> Units::getEnemies() const

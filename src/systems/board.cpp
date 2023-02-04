@@ -5,8 +5,9 @@
 
 using namespace std;
 
-Board::Board(Point dim)
+Board::Board(Units *units, Point dim)
 {
+    units_p = units;
     init(dim);
 }
 
@@ -58,7 +59,8 @@ void Board::setObject(const Point &position, char ch)
 
 void Board::setObjectAtCenter(char ch)
 {
-    map_[dim_.y / 2][dim_.x / 2] = ch;
+    Point center = getCenterPosition();
+    map_[center.y][center.x] = ch;
 }
 
 bool Board::isEmpty(const Point &position) const
@@ -81,27 +83,43 @@ Point Board::getRandomPoint() const
     return Point(randomX, randomY);
 }
 
-// Point Board::move(Point &position, char direction, int distance) const
-// {
-//     switch (direction)
-//     {
-//     case '^':
-//         position.y++;
-//         return position;
+Point Board::getCenterPosition() const
+{
+    return Point(dim_.x / 2, dim_.y / 2);
+}
 
-//     case 'v':
-//         position.y--;
-//         return position;
+void Board::movePlayer(char direction)
+{
+    Point playerPos = units_p->getPlayer().getPosition();
+    Point newPlayerPos = movePosition(playerPos, direction);
+    char objAtNewPlayerPos = getObject(newPlayerPos);
+}
 
-//     case '>':
-//         position.x++;
-//         return position;
+Point Board::movePosition(Point position, char direction) const
+{
+    switch (direction)
+    {
+    case '^':
+        position.y++;
+        return position;
 
-//     default:
-//         position.x--;
-//         return position;
-//     }
-// }
+    case 'v':
+        position.y--;
+        return position;
+
+    case '>':
+        position.x++;
+        return position;
+
+    case '<':
+        position.x--;
+        return position;
+
+    default:
+        cout << "Received invalid direction" << endl;
+        return position;
+    }
+}
 
 void Board::display() const
 {

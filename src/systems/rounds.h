@@ -9,13 +9,15 @@
 class Rounds
 {
 private:
+    Units *units_p;
     int gameRound_ = 1;
 
 public:
     Rounds();
+    Rounds(Units *units);
 
-    bool isPlayerRound(const Units &units);
-    void drawRoundBoard(const Units &units);
+    bool isPlayerRound();
+    void drawRoundBoard();
 
     // void playRound(Board &board, const Units &units);
     void increaseRound();

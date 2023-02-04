@@ -4,6 +4,7 @@
 #pragma once
 
 #include "point.h"
+#include "units.h"
 #include <vector>
 
 using namespace std;
@@ -11,11 +12,12 @@ using namespace std;
 class Board
 {
 private:
+    Units *units_p;
     vector<vector<char>> map_;
     Point dim_;
 
 public:
-    Board(Point dim = Point(15, 5));
+    Board(Units *units, Point dim = Point(15, 5));
     void init(const Point &dim);
     void display() const;
 
@@ -30,7 +32,10 @@ public:
     bool isInsideMap(const Point &position) const;
 
     Point getRandomPoint() const;
-    // Point move(Point &position, char direction, int distance = 1) const;
+    Point getCenterPosition() const;
+
+    void movePlayer(char direction);
+    Point movePosition(Point position, char direction) const;
 };
 
 #endif

@@ -13,6 +13,11 @@ Rounds::Rounds()
 {
 }
 
+Rounds::Rounds(Units *units)
+{
+    units_p = units;
+}
+
 void Rounds::increaseRound()
 {
     gameRound_++;
@@ -23,27 +28,16 @@ void Rounds::resetRound()
     gameRound_ = 1;
 }
 
-// void Rounds::playRound(Board &board, const Units &units)
-// {
-//     if (isPlayerRound(units))
-//     {
-//         checkInput(board);
-//     }
-
-//     Pause();
-//     gameRound_++;
-// }
-
-bool Rounds::isPlayerRound(const Units &units)
+bool Rounds::isPlayerRound()
 {
-    bool checkYes = gameRound_ <= units.getPlayersType().getCount();
+    bool checkYes = gameRound_ <= units_p->getPlayersType().getCount();
     return checkYes;
 }
 
-void Rounds::drawRoundBoard(const Units &units)
+void Rounds::drawRoundBoard()
 {
-    int pCount = units.getPlayersType().getCount();
-    int eCount = units.getEnemiesType().getCount();
+    int pCount = units_p->getPlayersType().getCount();
+    int eCount = units_p->getEnemiesType().getCount();
     int allCount = pCount + eCount;
 
     if (gameRound_ > allCount)
@@ -58,13 +52,14 @@ void Rounds::drawRoundBoard(const Units &units)
     {
         string info;
 
-        if (i < pCount)
+        if (i == 0)
         {
-            info = units.getPlayers().at(i).toString();
+            info = units_p->getPlayer().toString();
         }
         else
         {
-            info = units.getEnemies().at(i - units.getPlayersType().getCount()).toString();
+            int index = i - units_p->getPlayersType().getCount();
+            info = units_p->getEnemies().at(index).toString();
         }
 
         bool isRound = i == gameRound_ - 1;

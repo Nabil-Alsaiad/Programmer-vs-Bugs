@@ -41,9 +41,9 @@ int main()
      }
 
      Point dimensions(settings.getColumnCount(), settings.getRowCount());
-     Board board(dimensions);
-     Units units(1, settings.getZombieCount());
-     Rounds rounds;
+     Units units(settings.getZombieCount());
+     Board board(&units, dimensions);
+     Rounds rounds(&units);
 
      units.fillUnitsInBoard(board);
 
@@ -52,10 +52,9 @@ int main()
           ClearScreen();
 
           board.display();
-          rounds.drawRoundBoard(units);
-          // rounds.playRound(units);
+          rounds.drawRoundBoard();
 
-          if (rounds.isPlayerRound(units))
+          if (rounds.isPlayerRound())
           {
                checkInput(board);
           }
