@@ -13,7 +13,7 @@ Board::Board(Point dim)
 void Board::init(const Point &dim)
 {
     dim_ = dim;
-    char objects[] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+    char objects[] = {' ', ' ', ' ', ' ', ' ', ' ',
                       'a', 'd', 's', '<', '>', 'v', '^'};
     // a = artificial intelligence (pod)
     // d = documentation (health pack)

@@ -29,7 +29,7 @@ void Units::fillUnitsInBoard(Board &board)
                 unitSymbol = playersType_.getSymbol();
                 int index = playersType_.getCount() - pCount;
 
-                Stats stats(100, 100, 100);
+                Stats stats(0, 200, 0);
                 Unit unit(playersType_, stats, index);
 
                 players_.push_back(unit);
@@ -40,7 +40,7 @@ void Units::fillUnitsInBoard(Board &board)
                 unitSymbol = enemiesType_.getSymbol();
                 int index = enemiesType_.getCount() - eCount;
 
-                Stats stats(100, 100, 100);
+                Stats stats(10, 100, 2);
                 Unit unit(enemiesType_, stats, index);
 
                 enemies_.push_back(unit);
