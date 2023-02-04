@@ -19,10 +19,10 @@ string Stats::toString() const
     string rangeString = "";
     if (range_ > 0)
     {
-        rangeString = "Range: " + to_string(range_);
+        rangeString = ", Range: " + to_string(range_);
     }
 
-    return healthString + ", " + damageString + ", " + rangeString;
+    return healthString + ", " + damageString + rangeString;
 }
 
 bool Stats::takeDamage(int damage)

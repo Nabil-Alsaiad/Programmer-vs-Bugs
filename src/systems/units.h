@@ -25,6 +25,7 @@ public:
     Units(int enemyCount = 2);
 
     void fillUnitsInBoard(Board &board);
+    int Units::getRandomHealth();
 
     Unit getPlayer() const;
     vector<Unit> getEnemies() const;
