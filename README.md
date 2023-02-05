@@ -11,7 +11,7 @@ A YouTube videos of the game playlist link, [Click here to watch](https://youtub
 ## Compilation Instructions
 
 ```
-g++ "src/main.cpp" -o "programmer VS bugs"
+g++ "src/main.cpp" -o "programmer vs bugs"
 ```
 
 ## User Manual
@@ -26,7 +26,8 @@ If chose not to change anything then it'll take you straight to the main game me
 
 ### Game menu
 
-The game menu consits of 3 major parts
+The game menu consists of 3 major parts
+
 1. Game map
 2. Units board
 3. commands and logs (logs are not done yet)
@@ -34,6 +35,7 @@ The game menu consits of 3 major parts
 The map it's columns and rows numbered on the left and below the map, the map consists of slots, each slot can hold an unit, object or be empty.
 
 Units
+
 <table>
   <tr>
     <th>Name</th>
@@ -52,8 +54,8 @@ Units
   </tr>
 </table>
 
-
 Objects
+
 <table>
   <tr>
     <th>Name</th>
@@ -61,7 +63,7 @@ Objects
     <th>Description</th>
   </tr>
   <tr>
-    <td>Artificial intellegince (AI)</td>
+    <td>Artificial intelligence (AI)</td>
     <td>a</td>
     <td>Attacks the closes bug to it with a fixed damage of 10</td>
   </tr>

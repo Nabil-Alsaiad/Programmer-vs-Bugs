@@ -27,21 +27,18 @@ void Rounds::increaseRound()
 
 void Rounds::resetRound()
 {
-    gameRound_ = 0;
+    gameRound_ = playerRound_;
 }
 
 bool Rounds::isPlayerRound()
 {
-    bool checkYes = gameRound_ <= units_p->getPlayerType().getCount();
-    return checkYes;
+    return gameRound_ == playerRound_;
 }
 
 void Rounds::drawRoundBoard()
 {
-    int eCount = units_p->getEnemiesType().getCount();
-    int allCount = 1 + eCount;
-
-    if (gameRound_ >= allCount)
+    int unitCount = 1 + units_p->getEnemiesType().getCount();
+    if (gameRound_ >= unitCount)
     {
         resetRound();
     }
@@ -49,11 +46,11 @@ void Rounds::drawRoundBoard()
     cout << "Units" << endl
          << "-----------------------------------------" << endl;
 
-    for (int i = 0; i < allCount; i++)
+    for (int i = 0; i < unitCount; i++)
     {
         string info;
 
-        if (i == 0)
+        if (i == playerRound_)
         {
             info = units_p->getPlayer().toString();
         }

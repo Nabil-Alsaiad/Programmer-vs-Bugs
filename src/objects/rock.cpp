@@ -11,7 +11,7 @@ string Rock::getHiddenObject()
 
 void Rock::chooseARandomHiddenObject()
 {
-    string otherObject[] = {"h", "p", "<", ">", "^", "bottom", " "}; // i dont have bottom one
+    string otherObject[] = {"a", "d", "<", ">", "^", "v", " "};
     int otherNumber = 7;
     for (int i = 0; i < otherNumber; i++)
     {

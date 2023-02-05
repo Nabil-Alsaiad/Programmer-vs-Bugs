@@ -118,30 +118,23 @@ Point Board::getCenterPosition() const
 
 void Board::movePlayer(char direction)
 {
-    Point playerPos = units_p->getPlayer().getPosition();
+    Point oldPlayerPos = units_p->getPlayer().getPosition();
 
-    // cout << "playerPos: " + playerPos.toString() << endl;
-
-    Point newPlayerPos = movePosition(playerPos, direction);
+    Point newPlayerPos = movePosition(oldPlayerPos, direction);
     if (!isInsideMap(newPlayerPos))
     {
         return;
     }
 
-    // cout << "newPlayerPos: " + newPlayerPos.toString() << endl;
-
     char objAtNewPlayerPos = getObject(newPlayerPos);
-
-    // cout << "objAtNewPlayerPos: " + objAtNewPlayerPos << endl;
-
-    setObject(newPlayerPos, units_p->getPlayerType().getSymbol());
-
-    units_p->getPlayer().setPosition(newPlayerPos);
 
     // if (objAtNewPlayerPos == ' ')
     // {
     // }
-    // cout << "Moved player from point: " + playerPos.toString() + " to point: " + newPlayerPos.toString() + " which included: " << objAtNewPlayerPos << endl;
+
+    setObject(newPlayerPos, units_p->getPlayerType().getSymbol());
+    units_p->getPlayer().setPosition(newPlayerPos);
+    setObject(oldPlayerPos, '.');
 }
 
 Point Board::movePosition(Point position, char direction) const

@@ -10,7 +10,8 @@ class Rounds
 {
 private:
     Units *units_p;
-    int gameRound_ = 0;
+    int playerRound_ = 0;
+    int gameRound_ = playerRound_;
 
 public:
     Rounds();
