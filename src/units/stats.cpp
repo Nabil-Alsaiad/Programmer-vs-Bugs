@@ -1,39 +1,36 @@
-#include <string>
 #include "stats.h"
-
-using namespace std;
 
 Stats::Stats(int maxHealth, int damage, int range)
 {
-    maxHealth_ = maxHealth;
-    health_ = maxHealth;
-    damage_ = damage;
-    range_ = range;
+    this->maxHealth = maxHealth;
+    this->health = maxHealth;
+    this->damage = damage;
+    this->range = range;
 }
 
 string Stats::toString() const
 {
-    string healthString = "Health: " + to_string(health_);
-    string damageString = "Damage: " + to_string(damage_);
+    string healthString = "Health: " + to_string(health);
+    string damageString = ", Damage: " + to_string(damage);
 
     string rangeString = "";
-    if (range_ > 0)
+    if (range > 0)
     {
-        rangeString = ", Range: " + to_string(range_);
+        rangeString = ", Range: " + to_string(range);
     }
 
-    return healthString + ", " + damageString + rangeString;
+    return healthString + damageString + rangeString;
 }
 
 bool Stats::takeDamage(int damage)
 {
-    health_ -= damage;
-    if (health_ < 0)
+    health -= damage;
+    if (health < 0)
     {
-        health_ = 0;
+        health = 0;
     }
 
-    if (health_ == 0)
+    if (health == 0)
     {
         return true;
     }
@@ -45,19 +42,9 @@ bool Stats::takeDamage(int damage)
 
 void Stats::heal(int amount)
 {
-    health_ += amount;
-    if (health_ > maxHealth_)
+    health += amount;
+    if (health > maxHealth)
     {
-        health_ = maxHealth_;
+        health = maxHealth;
     }
-}
-
-void Stats::increaseDamage(int amount)
-{
-    damage_ += amount;
-}
-
-void Stats::resetDamage()
-{
-    damage_ = 0;
 }

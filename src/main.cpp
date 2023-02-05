@@ -19,18 +19,16 @@
 #include "systems/units.cpp"
 #include "systems/rounds.cpp"
 #include "units/stats.cpp"
+#include "units/unit.cpp"
+#include "units/unitstype.cpp"
 #include "user/settings.cpp"
 #include "user/commands.cpp"
 
 using namespace std;
 using namespace pf;
 
-int main()
+void settingsMenu(Setting &settings)
 {
-     srand(time(NULL));
-
-     Setting settings;
-
      while (true)
      {
           ClearScreen();
@@ -39,32 +37,68 @@ int main()
                break;
           }
      }
+}
 
-     Point dimensions(settings.getColumnCount(), settings.getRowCount());
-     Units units(settings.getZombieCount());
-     Board board(&units, dimensions);
-     Rounds rounds(&units);
-
-     board.fillUnits();
+void gameMenu(Board &board, Rounds &rounds, Units &units)
+{
+     bool playerDied;
 
      while (true)
      {
+          if (rounds.shouldResetRound(units))
+          {
+               // ClearScreen();
+               cout << "\nNEW SCREEN ================================\n\n";
+
+               board.display();
+               rounds.drawRoundBoard(units);
+
+               Pause();
+               board.clearTrials();
+          }
+
           // ClearScreen();
+          cout << "\nNEW SCREEN ================================\n\n";
 
           board.display();
-          rounds.drawRoundBoard();
+          rounds.drawRoundBoard(units);
+
+          if (playerDied)
+          {
+               cout << "GAME OVER" << endl
+                    << "Programmer has lost his mind while trying to fix the bugs" << endl
+                    << "taking a break and planning the code is much better that trial and error, " << endl
+                    << "also don't relay on AI or copy pasting and focus on improving your programming basics";
+               break;
+          }
 
           if (rounds.isPlayerRound())
           {
-               checkInput(board);
+               checkInput(board, units);
           }
           else
           {
+               playerDied = rounds.playEnemyRound(board, units);
                Pause();
           }
 
           rounds.increaseRound();
      }
+}
+
+int main()
+{
+     srand(time(NULL));
+
+     Setting settings;
+     settingsMenu(settings);
+
+     Units units(settings.getBugCount());
+     Board board(settings.getDimensions());
+     Rounds rounds;
+
+     board.fillUnits(units);
+     gameMenu(board, rounds, units);
 
      return 0;
 }

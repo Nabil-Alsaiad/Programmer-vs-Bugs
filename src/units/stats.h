@@ -7,23 +7,19 @@
 
 using namespace std;
 
-class Stats
+struct Stats
 {
-private:
-    int health_, maxHealth_;
-    int damage_;
-    int range_;
-
 public:
+    int health, maxHealth;
+    int damage;
+    int range;
+
     Stats(int maxHealth = 100, int damage = 10, int range = 0);
 
     string toString() const;
 
     bool takeDamage(int damage);
     void heal(int amount);
-
-    void increaseDamage(int amount);
-    void resetDamage();
 };
 
 #endif

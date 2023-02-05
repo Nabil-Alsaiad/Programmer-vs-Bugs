@@ -1,23 +1,20 @@
-#include <iostream>
-#include <string>
 #include "rounds.h"
-#include "board.h"
-#include "units.h"
-#include "../pf/helper.h"
-#include "../units/unit.cpp"
-
-using namespace std;
-using namespace pf;
 
 Rounds::Rounds()
 {
-    resetRound();
 }
 
-Rounds::Rounds(Units *units)
+bool Rounds::shouldResetRound(const Units &units)
 {
-    units_p = units;
-    Rounds();
+    int unitCount = 1 + units.getEnemiesType().getCount();
+    bool check = gameRound_ >= unitCount;
+
+    if (check)
+    {
+        gameRound_ = playerRound_;
+    }
+
+    return check;
 }
 
 void Rounds::increaseRound()
@@ -25,41 +22,63 @@ void Rounds::increaseRound()
     gameRound_++;
 }
 
-void Rounds::resetRound()
-{
-    gameRound_ = playerRound_;
-}
-
-bool Rounds::isPlayerRound()
+bool Rounds::isPlayerRound() const
 {
     return gameRound_ == playerRound_;
 }
 
-void Rounds::drawRoundBoard()
+bool Rounds::playEnemyRound(Board &board, Units &units) const
 {
-    int unitCount = 1 + units_p->getEnemiesType().getCount();
-    if (gameRound_ >= unitCount)
+    char directions[4] = {'^', 'v', '>', '<'};
+    vector<Unit> *enemies_p = units.getEnemiesPointer();
+    Unit *player_p = units.getPlayerPointer();
+
+    for (int i = 0; i < enemies_p->size(); i++)
     {
-        resetRound();
+        bool isOwnRound = i == gameRound_ - 1;
+        if (isOwnRound)
+        {
+            int randomIndex = rand() % 4;
+            Unit *enemy_p = &(enemies_p->at(i));
+            Point oldPosition = enemy_p->position;
+            Point newPosition = movePoint(oldPosition, directions[randomIndex]);
+
+            if (canMoveToPosition(board, newPosition, enemy_p))
+            {
+                finalMove(board, enemy_p, oldPosition, newPosition);
+            }
+
+            if (isWithinRange(enemy_p->stats.range, oldPosition, player_p->position))
+            {
+                return player_p->stats.takeDamage(enemy_p->stats.damage);
+            }
+
+            break;
+        }
     }
 
-    cout << "Units" << endl
-         << "-----------------------------------------" << endl;
+    return false;
+}
 
+void Rounds::drawRoundBoard(const Units &units) const
+{
+    cout << "Units\n-----------------------------------------" << endl;
+
+    int unitCount = 1 + units.getEnemiesType().getCount();
     for (int i = 0; i < unitCount; i++)
     {
         string info;
 
         if (i == playerRound_)
         {
-            info = units_p->getPlayer().toString();
+            info = units.getPlayer().toString();
         }
         else
         {
-            info = units_p->getEnemies().at(i - 1).toString();
+            info = units.getEnemies().at(i - 1).toString();
         }
 
-        bool isRound = i == gameRound_;
-        cout << (isRound ? "-> " : "   ") << info << endl;
+        bool isOwnRound = i == gameRound_;
+        cout << (isOwnRound ? "-> " : "   ") << info << endl;
     }
 }

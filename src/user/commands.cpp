@@ -2,6 +2,8 @@
 #include <string>
 #include "../systems/point.h"
 #include "../systems/board.h"
+#include "../systems/units.h"
+#include "../systems/movement.cpp"
 
 using namespace std;
 
@@ -30,14 +32,13 @@ void printCommands()
          << "- q/quit -> Quit the game\n";
 }
 
-void checkMoveCommand(Board &board)
+void checkMoveCommand(Board &board, Units &units)
 {
     string input;
 
     while (true)
     {
-        cout << "Provide movement direction> (u/up | d/down | r/right | l/left)" << endl;
-        cin >> input;
+        cout << "Provide movement direction: (u/up | d/down | r/right | l/left)> ", cin >> input;
 
         bool isUp = input == "u" || input == "up";
         bool isDown = input == "d" || input == "down";
@@ -53,7 +54,7 @@ void checkMoveCommand(Board &board)
     }
 
     char arrow = convertDirectionToArrow(input);
-    board.movePlayer(arrow);
+    movePlayer(board, units, arrow);
 }
 
 void checkArrowCommand(Board &board)
@@ -61,8 +62,7 @@ void checkArrowCommand(Board &board)
     int x, y;
     string dir;
 
-    cout << "Provide arrow location and new direction> x y (u|d|r|l)" << endl;
-    cin >> x >> y >> dir;
+    cout << "Provide arrow location and new direction: x y (u|d|r|l)> ", cin >> x >> y >> dir;
 
     Point pos(x, y);
     char obj = board.getObject(pos);
@@ -75,14 +75,13 @@ void checkArrowCommand(Board &board)
     board.setObject(pos, convertDirectionToArrow(dir));
 }
 
-void checkInput(Board &board)
+void checkInput(Board &board, Units &units)
 {
     string input;
 
     while (true)
     {
-        cout << "\nWrite your command> ";
-        cin >> input;
+        cout << "\nWrite your command> ", cin >> input;
 
         if (input == "h" || input == "help")
         {
@@ -90,7 +89,7 @@ void checkInput(Board &board)
         }
         else if (input == "m" || input == "move")
         {
-            checkMoveCommand(board);
+            checkMoveCommand(board, units);
             break;
         }
         if (input == "a" || input == "arrow")
@@ -103,7 +102,7 @@ void checkInput(Board &board)
         }
         else
         {
-            cout << "Unknown command, type 'h' or 'help' for list of all commands" << endl;
+            cout << "Unknown command, type 'h' or 'help' for list of all commands";
         }
     }
 }

@@ -3,11 +3,11 @@
 
 #pragma once
 
-#include <iostream>
+#include <cmath>
 #include <vector>
 #include <string>
-#include "../units/unit.cpp"
-#include "../units/unitstype.cpp"
+#include "../units/unit.h"
+#include "../units/unitstype.h"
 
 using namespace std;
 
@@ -24,10 +24,13 @@ public:
     Units(int enemyCount = 2);
 
     void fillUnits(Point boardCenter, vector<Point> randomPoints);
-    int getRandomHealth();
+    Stats generateRandomStats() const;
 
     Unit getPlayer() const;
     vector<Unit> getEnemies() const;
+
+    Unit *getPlayerPointer();
+    vector<Unit> *getEnemiesPointer();
 
     UnitsType getPlayerType() const;
     UnitsType getEnemiesType() const;

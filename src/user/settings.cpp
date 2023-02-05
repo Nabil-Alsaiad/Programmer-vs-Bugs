@@ -1,32 +1,27 @@
-#include <iostream>
 #include "settings.h"
 
-using namespace std;
-
-Setting::Setting(int rows, int columns, int zombies)
+Setting::Setting(int rowCount, int columnCount, int bugCount)
 {
-    rowCount_ = rows;
-    columnCount_ = columns;
-    zombieCount_ = zombies;
+    rowCount_ = rowCount;
+    columnCount_ = columnCount;
+    bugCount_ = bugCount;
 }
 
 bool Setting::viewPage()
 {
-    cout << "Made by:\n1. Nabil Alsaiad\n2. Hilmi Zaki\n3. Asem Maroof" << endl
-         << "----------------------" << endl;
+    cout << " Made by:\n - Nabil Alsaiad\n - Asem Maroof\n - Hilmi Zaki\n";
 
-    cout << "Default  settings" << endl
-         << "----------------------" << endl;
+    cout
+        << "\n Default  settings"
+        << "\n ----------------------";
 
-    cout << "Columns:  " << columnCount_ << endl;
-    cout << "Rows:  " << rowCount_ << endl;
-    cout << "Zombies:  " << zombieCount_ << endl;
-    cout << "----------------------" << endl;
+    cout << "\n Columns:  " << columnCount_
+         << "\n Rows:  " << rowCount_
+         << "\n Bugs:  " << bugCount_ << endl;
 
     bool wantToChange = false;
     string answer = "";
-    cout << "Do you want to change the settings? (y/n) => ";
-    cin >> answer;
+    cout << "\n Do you want to change the settings? (y/n) => ", cin >> answer;
 
     while (true)
     {
@@ -41,8 +36,7 @@ bool Setting::viewPage()
         }
         else
         {
-            cout << "Please enter a valid character (y/n): ";
-            cin >> answer;
+            cout << "Please enter a valid character (y/n): ", cin >> answer;
         }
     }
 
@@ -74,30 +68,25 @@ bool Setting::viewPage()
 
     while (wantToChange)
     {
-        cout << "Zombies: ", cin >> zombieCount_;
+        cout << "Bugs: ", cin >> bugCount_;
 
-        if (zombieCount_ >= 1 && zombieCount_ <= 5)
+        if (bugCount_ >= 1 && bugCount_ <= 5)
         {
             break;
         }
 
-        cout << "Zombies number must be within this range: (1 <= ? <= 5)" << endl;
+        cout << "Bugs number must be within this range: (1 <= ? <= 5)" << endl;
     }
 
     return false;
 }
 
-int Setting::getRowCount() const
+Point Setting::getDimensions() const
 {
-    return rowCount_;
+    return Point(columnCount_, rowCount_);
 }
 
-int Setting::getColumnCount() const
+int Setting::getBugCount() const
 {
-    return columnCount_;
-}
-
-int Setting::getZombieCount() const
-{
-    return zombieCount_;
+    return bugCount_;
 }

@@ -3,25 +3,28 @@
 
 #pragma once
 
-#include "board.h"
+#include <iostream>
 #include "units.h"
+#include "movement.cpp"
+
+using namespace std;
 
 class Rounds
 {
 private:
-    Units *units_p;
     int playerRound_ = 0;
     int gameRound_ = playerRound_;
 
 public:
     Rounds();
-    Rounds(Units *units);
 
-    bool isPlayerRound();
-    void drawRoundBoard();
-
+    bool shouldResetRound(const Units &units);
     void increaseRound();
-    void resetRound();
+
+    bool isPlayerRound() const;
+
+    bool playEnemyRound(Board &board, Units &units) const;
+    void drawRoundBoard(const Units &units) const;
 };
 
 #endif

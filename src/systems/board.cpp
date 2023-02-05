@@ -1,40 +1,99 @@
 #include "board.h"
-#include "point.h"
-#include <iostream>
-#include <iomanip>
 
-using namespace std;
-
-Board::Board(Units *units, Point dim)
+Board::Board(Point dim)
 {
-    units_p = units;
-    init(dim);
+    // map_ = vector<vector<char>>();
+    trailPoints_ = vector<Point>();
+    dim_ = dim;
+
+    initialize();
 }
 
-void Board::init(const Point &dim)
+void Board::initialize()
 {
-    dim_ = dim;
-    char objects[] = {' ', ' ', ' ', ' ', ' ', ' ',
-                      'a', 'd', 's', '<', '>', 'v', '^'};
-    // a = artificial intelligence (pod)
-    // d = documentation (health pack)
-    // s = search (rock)
-    int numberOfObjects = 12;
-
     map_.resize(dim_.y);
-    for (int i = 0; i < dim_.y; ++i)
+    for (int y = 0; y < dim_.y; ++y)
     {
-        map_[i].resize(dim_.x);
-    }
-
-    for (int i = 0; i < dim_.y; ++i)
-    {
-        for (int j = 0; j < dim_.x; ++j)
+        map_[y].resize(dim_.x);
+        for (int x = 0; x < dim_.x; ++x)
         {
-            int objNo = rand() % numberOfObjects;
-            map_[i][j] = objects[objNo];
+            map_[y][x] = getRandomObject();
         }
     }
+}
+
+void Board::fillUnits(Units &units)
+{
+    Point center = getCenterPosition();
+    setObject(center, units.getPlayerType().getSymbol());
+
+    vector<Point> randomPositions = vector<Point>();
+
+    for (int i = 0; i < units.getEnemiesType().getCount(); ++i)
+    {
+        Point randomPos = getRandomPoint();
+        setObject(randomPos, units.getEnemiesType().getSymbol());
+        randomPositions.push_back(randomPos);
+    }
+
+    units.fillUnits(center, randomPositions);
+}
+
+void Board::display() const
+{
+#pragma region each row
+    for (int y = 0; y < dim_.y; ++y)
+    {
+        // display upper border of the row
+        cout << "  ";
+        for (int x = 0; x < dim_.x; ++x)
+        {
+            cout << "+-";
+        }
+        cout << "+" << endl;
+
+        // display row number
+        cout << setw(2) << (dim_.y - y);
+
+        // display cell content and border of each column
+        for (int x = 0; x < dim_.x; ++x)
+        {
+            cout << "|" << map_[y][x];
+        }
+        cout << "|" << endl;
+    }
+#pragma endregion
+
+#pragma region lower border of the last row
+    cout << "  ";
+    for (int x = 0; x < dim_.x; ++x)
+    {
+        cout << "+-";
+    }
+    cout << "+" << endl;
+#pragma endregion
+
+#pragma region column number
+    cout << "  ";
+    for (int x = 0; x < dim_.x; ++x)
+    {
+        int digit = (x + 1) / 10;
+        cout << " ";
+
+        if (digit == 0)
+            cout << " ";
+        else
+            cout << digit;
+    }
+    cout << endl
+         << "  ";
+    for (int x = 0; x < dim_.x; ++x)
+    {
+        cout << " " << (x + 1) % 10;
+    }
+    cout << endl
+         << endl;
+#pragma endregion
 }
 
 int Board::getDimX() const
@@ -47,60 +106,45 @@ int Board::getDimY() const
     return dim_.x;
 }
 
-int Board::checkDimX(int x) const
+int Board::mapX(const Point &position) const
 {
-    if (x < 0)
-    {
-        x = 0;
-    }
-    else if (x >= dim_.x)
-    {
-        x = dim_.x;
-    }
-
-    return x;
+    return position.x - 1;
 }
 
-int Board::checkDimY(int y) const
+int Board::mapY(const Point &position) const
 {
-    if (y < 0)
-    {
-        y = 0;
-    }
-    else if (y >= dim_.y)
-    {
-        y = dim_.y;
-    }
-
-    return y;
+    return dim_.y - position.y;
 }
 
 char Board::getObject(const Point &position) const
 {
-    int x = position.x - 1;
-    int y = dim_.y - position.y;
-    return map_[checkDimY(y)][checkDimX(x)];
+    if (!isInsideMap(position))
+    {
+        throw std::out_of_range("The point: " + position.toString() + " is outside of the map");
+    }
+    return map_[mapY(position)][mapX(position)];
 }
 
 void Board::setObject(const Point &position, char ch)
 {
-    int x = position.x - 1;
-    int y = dim_.y - position.y;
-    map_[checkDimY(y)][checkDimX(x)] = ch;
-}
-
-bool Board::isEmpty(const Point &position) const
-{
-    int x = position.x - 1;
-    int y = dim_.y - position.y;
-    return map_[checkDimY(y)][checkDimX(x)] == ' ';
+    if (!isInsideMap(position))
+    {
+        throw std::out_of_range("The point: " + position.toString() + " is outside of the map");
+    }
+    map_[mapY(position)][mapX(position)] = ch;
 }
 
 bool Board::isInsideMap(const Point &position) const
 {
-    bool inMapHorizontally = position.x > 0 && position.x <= dim_.x;
-    bool inMapVertically = position.y > 0 && position.y <= dim_.y;
-    return inMapHorizontally && inMapVertically;
+    bool isInsideHorizontally = position.x > 0 && position.x <= dim_.x;
+    bool isInsideVertically = position.y > 0 && position.y <= dim_.y;
+    return isInsideHorizontally && isInsideVertically;
+}
+
+char Board::getRandomObject() const
+{
+    int objIndex = rand() % objectsArraySize_;
+    return objects[objIndex];
 }
 
 Point Board::getRandomPoint() const
@@ -116,123 +160,25 @@ Point Board::getCenterPosition() const
     return Point((dim_.x / 2) + 1, (dim_.y / 2) + 1);
 }
 
-void Board::movePlayer(char direction)
+void Board::markAsTrial(const Point &position)
 {
-    Point oldPlayerPos = units_p->getPlayer().getPosition();
-
-    Point newPlayerPos = movePosition(oldPlayerPos, direction);
-    if (!isInsideMap(newPlayerPos))
-    {
-        return;
-    }
-
-    char objAtNewPlayerPos = getObject(newPlayerPos);
-
-    // if (objAtNewPlayerPos == ' ')
-    // {
-    // }
-
-    setObject(newPlayerPos, units_p->getPlayerType().getSymbol());
-    units_p->getPlayer().setPosition(newPlayerPos);
-    setObject(oldPlayerPos, '.');
+    setObject(position, trailSymbol_);
+    trailPoints_.push_back(position);
 }
 
-Point Board::movePosition(Point position, char direction) const
+void Board::clearTrials()
 {
-    switch (direction)
+    int size = trailPoints_.size();
+    for (int i = 0; i < size; ++i)
     {
-    case '^':
-        position.y++;
-        return position;
+        int objIndex = rand() % objectsArraySize_;
+        Point position = trailPoints_.at(i);
 
-    case 'v':
-        position.y--;
-        return position;
-
-    case '>':
-        position.x++;
-        return position;
-
-    case '<':
-        position.x--;
-        return position;
-
-    default:
-        cout << "Received invalid direction" << endl;
-        return position;
-    }
-}
-
-void Board::fillUnits()
-{
-    Point center = getCenterPosition();
-    setObject(center, units_p->getPlayerType().getSymbol());
-
-    vector<Point> randomPositions = vector<Point>();
-
-    for (int i = 0; i < units_p->getEnemiesType().getCount(); i++)
-    {
-        Point randomPos = getRandomPoint();
-        setObject(randomPos, units_p->getEnemiesType().getSymbol());
-        randomPositions.push_back(randomPos);
-    }
-
-    units_p->fillUnits(center, randomPositions);
-}
-
-void Board::display() const
-{
-#pragma region each row
-    for (int i = 0; i < dim_.y; ++i)
-    {
-        // display upper border of the row
-        cout << "  ";
-        for (int j = 0; j < dim_.x; ++j)
+        if (getObject(position) == trailSymbol_)
         {
-            cout << "+-";
+            setObject(position, objects[objIndex]);
         }
-        cout << "+" << endl;
-
-        // display row number
-        cout << setw(2) << (dim_.y - i);
-
-        // display cell content and border of each column
-        for (int j = 0; j < dim_.x; ++j)
-        {
-            cout << "|" << map_[i][j];
-        }
-        cout << "|" << endl;
     }
-#pragma endregion
 
-#pragma region lower border of the last row
-    cout << "  ";
-    for (int j = 0; j < dim_.x; ++j)
-    {
-        cout << "+-";
-    }
-    cout << "+" << endl;
-#pragma endregion
-
-#pragma region column number
-    cout << "  ";
-    for (int j = 0; j < dim_.x; ++j)
-    {
-        int digit = (j + 1) / 10;
-        cout << " ";
-
-        if (digit == 0)
-            cout << " ";
-        else
-            cout << digit;
-    }
-    cout << endl;
-    cout << "  ";
-    for (int j = 0; j < dim_.x; ++j)
-    {
-        cout << " " << (j + 1) % 10;
-    }
-    cout << endl
-         << endl;
-#pragma endregion
+    trailPoints_.clear();
 }

@@ -3,28 +3,24 @@
 
 #pragma once
 
-#include "../systems/point.h"
+#include <string>
 #include "stats.h"
 #include "unitstype.h"
-#include <string>
+#include "../systems/point.h"
 
 using namespace std;
 
-class Unit
+struct Unit
 {
-private:
-    const UnitsType *TYPE_P;
-    Stats stats_;
-    Point position_;
-    int index_;
-
 public:
-    Unit();
-    Unit(const UnitsType &type, const Stats &stats = Stats(100, 10, 0), const Point position = Point(0, 0), const int index = 0);
-    string toString() const;
+    const UnitsType *TYPE_P;
+    Stats stats;
+    Point position;
+    int index;
 
-    Point getPosition() const;
-    void setPosition(const Point position);
+    Unit();
+    Unit(const UnitsType &type, const Stats &stats, const Point position, const int index);
+    string toString() const;
 };
 
 #endif

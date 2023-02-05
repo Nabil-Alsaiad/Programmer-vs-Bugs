@@ -13,6 +13,8 @@ public:
     int x, y;
     Point(int x = 0, int y = 0);
     string toString() const;
+
+    bool isEqual(const Point pointToCompare) const;
 };
 
 #endif

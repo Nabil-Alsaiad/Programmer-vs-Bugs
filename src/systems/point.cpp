@@ -1,7 +1,4 @@
 #include "point.h"
-#include <iostream>
-
-using namespace std;
 
 Point::Point(int x, int y)
 {
@@ -11,7 +8,12 @@ Point::Point(int x, int y)
 
 string Point::toString() const
 {
-    string xString = to_string(this->x);
-    string yString = to_string(this->y);
+    string xString = to_string(x);
+    string yString = to_string(y);
     return "(" + xString + ", " + yString + ")";
+}
+
+bool Point::isEqual(const Point pointToCompare) const
+{
+    return x == pointToCompare.x && y == pointToCompare.y;
 }

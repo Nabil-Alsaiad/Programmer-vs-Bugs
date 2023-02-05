@@ -1,7 +1,4 @@
 #include "unitstype.h"
-#include <string>
-
-using namespace std;
 
 UnitsType::UnitsType(string name, char symbol, int count)
 {
