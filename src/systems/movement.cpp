@@ -8,33 +8,33 @@
 
 using namespace std;
 
-bool isWithinRange(const int range, const Point &originalPosition, const Point &targetPosition)
+bool isWithinRange(const Point &originalPosition, const Point &targetPosition, const int range)
 {
     bool isWithinX = abs(targetPosition.x - originalPosition.x) <= range;
     bool isWithinY = abs(targetPosition.y - originalPosition.y) <= range;
 
     return isWithinX && isWithinY;
 }
+bool isWithinRange(const Unit *attacker, const Unit *target)
+{
+    return isWithinRange(attacker->position, target->position, attacker->stats.range);
+}
 
-Point movePoint(Point position, char direction)
+Point movePoint(const Point &position, const char direction)
 {
     switch (direction)
     {
     case '^':
-        position.y++;
-        return position;
+        return Point(position.x, position.y + 1);
 
     case 'v':
-        position.y--;
-        return position;
+        return Point(position.x, position.y - 1);
 
     case '>':
-        position.x++;
-        return position;
+        return Point(position.x + 1, position.y);
 
     case '<':
-        position.x--;
-        return position;
+        return Point(position.x - 1, position.y);
 
     default:
         cout << "Received invalid direction" << endl;
@@ -42,15 +42,15 @@ Point movePoint(Point position, char direction)
     }
 }
 
-void finalMove(Board &board, Unit *unit_p, const Point &oldPosition, const Point &newPosition)
+void finalMove(Board &board, Unit *unit_p, const Point &newPosition)
 {
+    board.markAsTrial(unit_p->position);
+
     board.setObject(newPosition, unit_p->TYPE_P->getSymbol());
     unit_p->position = newPosition;
-
-    board.markAsTrial(oldPosition);
 }
 
-bool canMoveToPosition(Board &board, const Point &newPosition, Unit *unit_p, vector<Unit> *enemies_p = {}, bool isPlayer = true)
+bool canMoveToPosition(Board &board, Unit *unit_p, const Point &newPosition, vector<Unit> *enemies_p = {})
 {
     bool isInside = board.isInsideMap(newPosition);
     if (!isInside)
@@ -61,31 +61,34 @@ bool canMoveToPosition(Board &board, const Point &newPosition, Unit *unit_p, vec
     char objAtPosition = board.getObject(newPosition);
 
     bool isSearch = objAtPosition == 's';
+    bool isUnit = objAtPosition == 'P' || objAtPosition == 'B';
+
     if (isSearch)
     {
         board.setObject(newPosition, board.getRandomObject());
+        return !enemies_p;
     }
-
-    bool isUnit = objAtPosition == 'P' || objAtPosition == 'B';
-    if (isUnit && isPlayer)
+    else if (isUnit)
     {
-        int size = enemies_p->size();
-
-        Unit *enemy_p;
-        for (int i = 0; i < size; i++)
+        if (enemies_p)
         {
-            enemy_p = &(enemies_p->at(i));
-            if (enemy_p->position.isEqual(newPosition))
+            for (int i = 0; i < enemies_p->size(); ++i)
             {
-                break;
+                Unit *enemy_p = &(enemies_p->at(i));
+                if (enemy_p->position.isEqual(newPosition))
+                {
+                    bool enemyDied = enemy_p->stats.takeDamage(unit_p->stats.damage);
+                    return enemyDied;
+                }
             }
         }
-
-        bool enemyDied = enemy_p->stats.takeDamage(unit_p->stats.damage);
-        return enemyDied;
+        else
+        {
+            return false;
+        }
     }
 
-    return !isSearch && !isUnit;
+    return true;
 }
 
 void movePlayer(Board &board, Units &units, char direction)
@@ -96,7 +99,7 @@ void movePlayer(Board &board, Units &units, char direction)
     {
         Point oldPosition = player_p->position;
         Point newPosition = movePoint(oldPosition, direction);
-        if (!canMoveToPosition(board, newPosition, player_p, units.getEnemiesPointer()))
+        if (!canMoveToPosition(board, player_p, newPosition, units.getEnemiesPointer()))
         {
             break;
         }
@@ -107,12 +110,12 @@ void movePlayer(Board &board, Units &units, char direction)
             direction = objAtPosition;
             player_p->stats.damage += 20;
         }
-        if (objAtPosition == 'f')
+        else if (objAtPosition == 'f')
         {
             player_p->stats.damage *= 2;
         }
 
-        finalMove(board, player_p, oldPosition, newPosition);
+        finalMove(board, player_p, newPosition);
     }
 
     player_p->stats.damage = 0;

@@ -10,6 +10,17 @@ string Point::toString() const
 {
     string xString = to_string(x);
     string yString = to_string(y);
+
+    if (xString.length() == 1)
+    {
+        xString = " " + xString;
+    }
+
+    if (yString.length() == 1)
+    {
+        yString = " " + yString;
+    }
+
     return "(" + xString + ", " + yString + ")";
 }
 

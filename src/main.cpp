@@ -51,7 +51,7 @@ void gameMenu(Board &board, Rounds &rounds, Units &units)
                cout << "\nNEW SCREEN ================================\n\n";
 
                board.display();
-               rounds.drawRoundBoard(units);
+               rounds.drawUnitsBoard(units, false);
 
                Pause();
                board.clearTrials();
@@ -61,20 +61,21 @@ void gameMenu(Board &board, Rounds &rounds, Units &units)
           cout << "\nNEW SCREEN ================================\n\n";
 
           board.display();
-          rounds.drawRoundBoard(units);
+          rounds.drawUnitsBoard(units);
 
           if (playerDied)
           {
-               cout << "GAME OVER" << endl
-                    << "Programmer has lost his mind while trying to fix the bugs" << endl
-                    << "taking a break and planning the code is much better that trial and error, " << endl
-                    << "also don't relay on AI or copy pasting and focus on improving your programming basics";
+               cout << "\nGAME OVER" << endl
+                    << "Programmer has lost his mind while trying to fix the bugs." << endl
+                    << "Taking a break and planning the code is much better than trial and error, also don't relay on AI or copy pasting and focus on improving your programming basics" << endl;
                break;
           }
 
+          bool roundEnded = true;
+
           if (rounds.isPlayerRound())
           {
-               checkInput(board, units);
+               roundEnded = checkInput(board, units);
           }
           else
           {
@@ -82,7 +83,10 @@ void gameMenu(Board &board, Rounds &rounds, Units &units)
                Pause();
           }
 
-          rounds.increaseRound();
+          if (roundEnded)
+          {
+               rounds.increaseRound();
+          }
      }
 }
 

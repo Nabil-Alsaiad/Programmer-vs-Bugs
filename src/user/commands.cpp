@@ -23,13 +23,13 @@ char convertDirectionToArrow(string directionInput)
 
 void printCommands()
 {
-    cout << "Help commands:\n"
-         << "- h/help -> Display user commands\n"
-         << "- m/move -> Move the programmer\n"
-         << "- a/arrow -> Change an arrow direction\n"
-         //  << "- s/save -> Save the game\n"
-         //  << "- ld/load -> Load the game\n"
-         << "- q/quit -> Quit the game\n";
+    cout << "Help commands:" << endl
+         << "- h/help -> Display user commands" << endl
+         << "- m/move -> Move the programmer" << endl
+         << "- a/arrow -> Change an arrow direction" << endl
+         //  << "- s/save -> Save the game" << endl
+         //  << "- ld/load -> Load the game" << endl
+         << "- q/quit -> Quit the game" << endl;
 }
 
 void checkMoveCommand(Board &board, Units &units)
@@ -75,7 +75,7 @@ void checkArrowCommand(Board &board)
     board.setObject(pos, convertDirectionToArrow(dir));
 }
 
-void checkInput(Board &board, Units &units)
+bool checkInput(Board &board, Units &units)
 {
     string input;
 
@@ -90,11 +90,12 @@ void checkInput(Board &board, Units &units)
         else if (input == "m" || input == "move")
         {
             checkMoveCommand(board, units);
-            break;
+            return true;
         }
-        if (input == "a" || input == "arrow")
+        else if (input == "a" || input == "arrow")
         {
             checkArrowCommand(board);
+            return false;
         }
         else if (input == "q" || input == "quit")
         {
@@ -102,7 +103,9 @@ void checkInput(Board &board, Units &units)
         }
         else
         {
-            cout << "Unknown command, type 'h' or 'help' for list of all commands";
+            cout << "Unknown command, type 'h' or 'help' for list of all commands" << endl;
         }
     }
+
+    return false;
 }

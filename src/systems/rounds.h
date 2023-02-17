@@ -4,6 +4,7 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 #include "units.h"
 #include "movement.cpp"
 
@@ -24,7 +25,7 @@ public:
     bool isPlayerRound() const;
 
     bool playEnemyRound(Board &board, Units &units) const;
-    void drawRoundBoard(const Units &units) const;
+    void drawUnitsBoard(const Units &units, bool drawArrow = true) const;
 };
 
 #endif

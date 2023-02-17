@@ -29,38 +29,38 @@ bool Rounds::isPlayerRound() const
 
 bool Rounds::playEnemyRound(Board &board, Units &units) const
 {
-    char directions[4] = {'^', 'v', '>', '<'};
+    vector<char> directions = {'^', 'v', '>', '<'};
     vector<Unit> *enemies_p = units.getEnemiesPointer();
     Unit *player_p = units.getPlayerPointer();
 
-    for (int i = 0; i < enemies_p->size(); i++)
+    int enemyIndex = gameRound_ - 1;
+    Unit *enemy_p = &(enemies_p->at(enemyIndex));
+
+    while (!directions.empty())
     {
-        bool isOwnRound = i == gameRound_ - 1;
-        if (isOwnRound)
+        int randomIndex = rand() % directions.size();
+        Point newPosition = movePoint(enemy_p->position, directions[randomIndex]);
+
+        bool canMove = canMoveToPosition(board, enemy_p, newPosition);
+        if (canMove)
         {
-            int randomIndex = rand() % 4;
-            Unit *enemy_p = &(enemies_p->at(i));
-            Point oldPosition = enemy_p->position;
-            Point newPosition = movePoint(oldPosition, directions[randomIndex]);
-
-            if (canMoveToPosition(board, newPosition, enemy_p))
-            {
-                finalMove(board, enemy_p, oldPosition, newPosition);
-            }
-
-            if (isWithinRange(enemy_p->stats.range, oldPosition, player_p->position))
-            {
-                return player_p->stats.takeDamage(enemy_p->stats.damage);
-            }
-
+            finalMove(board, enemy_p, newPosition);
             break;
         }
+
+        vector<char>::iterator chosenDirection_it = directions.begin() + randomIndex;
+        directions.erase(chosenDirection_it);
+    }
+
+    if (isWithinRange(enemy_p, player_p))
+    {
+        return player_p->stats.takeDamage(enemy_p->stats.damage);
     }
 
     return false;
 }
 
-void Rounds::drawRoundBoard(const Units &units) const
+void Rounds::drawUnitsBoard(const Units &units, bool drawArrow) const
 {
     cout << "Units\n-----------------------------------------" << endl;
 
@@ -78,7 +78,7 @@ void Rounds::drawRoundBoard(const Units &units) const
             info = units.getEnemies().at(i - 1).toString();
         }
 
-        bool isOwnRound = i == gameRound_;
+        bool isOwnRound = drawArrow && (i == gameRound_);
         cout << (isOwnRound ? "-> " : "   ") << info << endl;
     }
 }
