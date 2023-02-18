@@ -114,6 +114,47 @@ void movePlayer(Board &board, Units &units, char direction)
             direction = objAtPosition;
             player_p->stats.damage += 20;
         }
+
+        else if (objAtPosition == 'a'){
+            vector <Unit> *enemies = units.getEnemiesPointer();
+            int index = 0; 
+
+            for(int i = 1; i < enemies.size(); i++){
+
+                float distance1 = getDistanceBetweenPositions(newPosition, enemies->at(index).position);
+                float distance2 = getDistanceBetweenPositions(newPosition, enemies->at(i).position);
+
+                if (distance1 > distance2){
+                    index = i;
+                }
+
+                else if (distance1 = distance2){
+                    // extra feature
+                    int health1 = enemies->at(index).stats.health;
+                    int health2 = enemies->at(i).stats.health;
+                    int equal = rand() % 2;
+
+                    if(health1 < health2){
+                        
+                    }
+                    else if(health1 > health2){
+                        index = i;
+                    }
+
+                    else{
+                        if (equal == 1){
+                            index = i;
+                        }
+                    }
+                }
+            }
+            enemies->at(index).stats.takeDamage(10);
+        }
+
+        else if (objAtPosition == 'c'){
+           player_p->stats.health += 20;
+        }
+
         else if (objAtPosition == 'f')
         {
             player_p->stats.damage *= 2;

@@ -22,9 +22,9 @@ private:
 
     char trailSymbol_ = '.';
     int objectsArraySize_ = 13;
-    char objects[13] = {' ', ' ', ' ', ' ', ' ', ' ', 'a', 'd', 's', '<', '>', 'v', '^'};
+    char objects[13] = {' ', ' ', ' ', ' ', ' ', ' ', 'a', 'c', 's', '<', '>', 'v', '^'};
     // a = artificial intelligence (pod)
-    // d = documentation (health pack)
+    // c = coffee (health pack)
     // s = search (rock)
 
 public:
