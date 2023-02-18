@@ -123,12 +123,12 @@ void Board::spawnFeature(vector <Unit> *enemies){
         char object = getObject(position);
         bool isThere = object == 'a' || object == 'P' || object == 'B' || object == 's' || object == 'f' || object == 'c';
 
-        if(isThere){}
-
-        else{
+        if(!isThere){
             setObject(position, 'f');
             fixedBugs -= 1;
         }
+
+        
 
     }
 }
