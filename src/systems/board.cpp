@@ -96,6 +96,43 @@ void Board::display() const
 #pragma endregion
 }
 
+void Board::spawnFeature(vector <Unit> *enemies){
+    int fixedBugs = 0;
+
+    for (int i = 0; i < enemies->size(); i++){
+
+        bool checkHealth = enemies->at(i).stats.health == 0;
+        if(checkHealth){
+            fixedBugs += 1;
+        }
+    }
+
+    for(int i = 0; i < dim_.y; i++){
+        for(int j = 0; j < dim_.x; j++){
+            char object = getObject(Point(j ,i));
+
+            if(object == 'f'){
+                fixedBugs -= 1;
+            }
+        }
+    }
+
+    while(fixedBugs > 0){
+
+        Point position = getRandomPoint(); 
+        char object = getObject(position);
+        bool isThere = object == 'a' || object == 'P' || object == 'B' || object == 's' || object == 'f' || object == 'c';
+
+        if(isThere){}
+
+        else{
+            setObject(position, 'f');
+            fixedBugs -= 1;
+        }
+
+    }
+}
+
 int Board::getDimX() const
 {
     return dim_.x;

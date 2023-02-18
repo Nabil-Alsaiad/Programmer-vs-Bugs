@@ -32,6 +32,7 @@ public:
     void initialize();
     void fillUnits(Units &units);
     void display() const;
+    void spawnFeature();
 
     int getDimX() const;
     int getDimY() const;
