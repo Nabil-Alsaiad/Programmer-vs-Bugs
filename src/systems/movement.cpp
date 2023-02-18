@@ -8,16 +8,20 @@
 
 using namespace std;
 
-bool isWithinRange(const Point &originalPosition, const Point &targetPosition, const int range)
+bool isWithinRange(const Unit *attacker, const Unit *target)
 {
-    bool isWithinX = abs(targetPosition.x - originalPosition.x) <= range;
-    bool isWithinY = abs(targetPosition.y - originalPosition.y) <= range;
+    bool isWithinX = abs(target->position.x - attacker->position.x) <= attacker->stats.range;
+    bool isWithinY = abs(target->position.y - attacker->position.y) <= attacker->stats.range;
 
     return isWithinX && isWithinY;
 }
-bool isWithinRange(const Unit *attacker, const Unit *target)
+
+float getDistanceBetweenPositions(const Point &originalPosition, const Point &targetPosition)
 {
-    return isWithinRange(attacker->position, target->position, attacker->stats.range);
+    int distanceX = abs(targetPosition.x - originalPosition.x);
+    int distanceY = abs(targetPosition.y - originalPosition.y);
+
+    return (distanceX + distanceY) / 2.0f;
 }
 
 Point movePoint(const Point &position, const char direction)
