@@ -83,8 +83,7 @@ bool gameMenu(Board &board, Rounds &rounds, Units &units)
      {
           if (rounds.shouldResetRound(units))
           {
-               // ClearScreen();
-               cout << "\nNEW SCREEN ================================\n\n";
+               ClearScreen();
 
                bool allEnemiesAreDead = board.spawnFeatures(units.getEnemiesPointer());
                if (allEnemiesAreDead)
@@ -100,8 +99,7 @@ bool gameMenu(Board &board, Rounds &rounds, Units &units)
                }
           }
 
-          // ClearScreen();
-          cout << "\nNEW SCREEN ================================\n\n";
+          ClearScreen();
 
           if (playerDied)
           {
