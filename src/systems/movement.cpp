@@ -41,7 +41,7 @@ Point movePoint(const Point &position, const char direction)
         return Point(position.x - 1, position.y);
 
     default:
-        cout << "Received invalid direction" << endl;
+        cout << "Received invalid direction\n";
         return position;
     }
 }

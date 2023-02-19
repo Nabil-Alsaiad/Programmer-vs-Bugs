@@ -66,9 +66,9 @@ void gameMenu(Board &board, Rounds &rounds, Units &units)
 
           if (playerDied)
           {
-               cout << "\nGAME OVER" << endl
-                    << "Programmer has lost his mind while trying to fix the bugs." << endl
-                    << "Taking a break and planning the code is much better than trial and error, also don't relay on AI or copy pasting and focus on improving your programming basics" << endl;
+               cout << "\nGAME OVER\n"
+                    << "Programmer has lost his mind while trying to fix the bugs.\n"
+                    << "Taking a break and planning the code is much better than trial and error, also don't relay on AI or copy pasting and focus on improving your programming basics\n";
                break;
           }
 

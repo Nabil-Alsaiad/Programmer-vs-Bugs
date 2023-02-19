@@ -62,7 +62,7 @@ bool Rounds::playEnemyRound(Board &board, Units &units) const
 
 void Rounds::drawUnitsBoard(const Units &units, bool drawArrow) const
 {
-    cout << "Units\n-----------------------------------------" << endl;
+    cout << "Units\n-----------------------------------------\n";
 
     int unitCount = 1 + units.getEnemiesType().getCount();
     for (int i = 0; i < unitCount; i++)
@@ -79,6 +79,6 @@ void Rounds::drawUnitsBoard(const Units &units, bool drawArrow) const
         }
 
         bool isOwnRound = drawArrow && (i == gameRound_);
-        cout << (isOwnRound ? "-> " : "   ") << info << endl;
+        cout << (isOwnRound ? "-> " : "   ") + info + "\n";
     }
 }

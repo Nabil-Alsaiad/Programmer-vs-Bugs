@@ -17,12 +17,12 @@ bool Setting::viewPage()
 
     cout << "\n Columns:  " << columnCount_
          << "\n Rows:  " << rowCount_
-         << "\n Bugs:  " << bugCount_ << endl;
+         << "\n Bugs:  " << bugCount_;
+
+    string answer = "";
+    cout << "\n\n Do you want to change the settings? (y/n) => ", cin >> answer;
 
     bool wantToChange = false;
-    string answer = "";
-    cout << "\n Do you want to change the settings? (y/n) => ", cin >> answer;
-
     while (true)
     {
         if (answer == "y")
@@ -50,7 +50,7 @@ bool Setting::viewPage()
             break;
         }
 
-        cout << "Please enter an odd number within this range: (9 <= ? <= 17)" << endl;
+        cout << "Please enter an odd number within this range: (9 <= ? <= 17)\n";
     }
 
     while (wantToChange)
@@ -63,7 +63,7 @@ bool Setting::viewPage()
             break;
         }
 
-        cout << "Please enter an odd number within this range: (3 <= ? <= 7)" << endl;
+        cout << "Please enter an odd number within this range: (3 <= ? <= 7)\n";
     }
 
     while (wantToChange)
@@ -75,7 +75,7 @@ bool Setting::viewPage()
             break;
         }
 
-        cout << "Bugs number must be within this range: (1 <= ? <= 5)" << endl;
+        cout << "Bugs number must be within this range: (1 <= ? <= 5)\n";
     }
 
     return false;

@@ -49,7 +49,7 @@ void Board::display() const
         {
             cout << "+-";
         }
-        cout << "+" << endl;
+        cout << "+\n";
 
         // display row number
         cout << setw(2) << (dim_.y - y);
@@ -59,7 +59,7 @@ void Board::display() const
         {
             cout << "|" << map_[y][x];
         }
-        cout << "|" << endl;
+        cout << "|\n";
     }
 #pragma endregion
 
@@ -69,7 +69,7 @@ void Board::display() const
     {
         cout << "+-";
     }
-    cout << "+" << endl;
+    cout << "+\n";
 #pragma endregion
 
 #pragma region column number
@@ -84,14 +84,12 @@ void Board::display() const
         else
             cout << digit;
     }
-    cout << endl
-         << "  ";
+    cout << "\n  ";
     for (int x = 0; x < dim_.x; ++x)
     {
         cout << " " << (x + 1) % 10;
     }
-    cout << endl
-         << endl;
+    cout << "\n\n";
 #pragma endregion
 }
 
@@ -112,7 +110,7 @@ void Board::spawnFeatures(vector<Unit> *enemies_p)
         for (int j = 1; j <= dim_.x; j++)
         {
             Point position = Point(j, i);
-            cout << position.toString() << endl;
+            cout << position.toString() + "\n";
             if (getObject(position) == 'f')
             {
                 featuresToSpawn--;
