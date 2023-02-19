@@ -16,14 +16,6 @@ bool isWithinRange(const Unit *attacker, const Unit *target)
     return isWithinX && isWithinY;
 }
 
-float calculateDistance(const Point &originalPosition, const Point &targetPosition)
-{
-    int distanceX = abs(targetPosition.x - originalPosition.x);
-    int distanceY = abs(targetPosition.y - originalPosition.y);
-
-    return (distanceX + distanceY) / 2.0f;
-}
-
 Point movePoint(const Point &position, const char direction)
 {
     switch (direction)
@@ -95,62 +87,48 @@ bool canMoveToPosition(Board &board, Unit *unit_p, const Point &newPosition, vec
     return true;
 }
 
+char checkObj(Board &board, Units &units, Point &newPosition, Unit *player_p, char direction)
+{
+    char objAtPosition = board.getObject(newPosition);
+    if (objAtPosition == '^' || objAtPosition == 'v' || objAtPosition == '>' || objAtPosition == '<')
+    {
+        direction = objAtPosition;
+        player_p->stats.damage += 20;
+    }
+    else if (objAtPosition == 'f')
+    {
+        player_p->stats.damage *= 2;
+    }
+    else if (objAtPosition == 'c')
+    {
+        player_p->stats.heal(20);
+    }
+    else if (objAtPosition == 'a')
+    {
+        Point deadEnemyPosition = units.attackClosestEnemy(newPosition);
+        if (!deadEnemyPosition.isNull())
+        {
+            board.setObject(deadEnemyPosition, ' ');
+        }
+    }
+
+    return direction;
+}
+
 void movePlayer(Board &board, Units &units, char direction)
 {
     Unit *player_p = units.getPlayerPointer();
+    vector<Unit> *enemies_p = units.getEnemiesPointer();
 
     while (true)
     {
-        Point oldPosition = player_p->position;
-        Point newPosition = movePoint(oldPosition, direction);
-        if (!canMoveToPosition(board, player_p, newPosition, units.getEnemiesPointer()))
+        Point newPosition = movePoint(player_p->position, direction);
+        if (!canMoveToPosition(board, player_p, newPosition, enemies_p))
         {
             break;
         }
 
-        char objAtPosition = board.getObject(newPosition);
-        if (objAtPosition == '^' || objAtPosition == 'v' || objAtPosition == '>' || objAtPosition == '<')
-        {
-            direction = objAtPosition;
-            player_p->stats.damage += 20;
-        }
-        else if (objAtPosition == 'f')
-        {
-            player_p->stats.damage *= 2;
-        }
-        else if (objAtPosition == 'c')
-        {
-            player_p->stats.health += 20;
-        }
-        else if (objAtPosition == 'a')
-        {
-            vector<Unit> *enemies_p = units.getEnemiesPointer();
-            int index = 0;
-
-            for (int i = 1; i < enemies_p->size(); i++)
-            {
-                float distance1 = calculateDistance(newPosition, enemies_p->at(index).position);
-                float distance2 = calculateDistance(newPosition, enemies_p->at(i).position);
-
-                if (distance2 < distance1)
-                {
-                    index = i;
-                }
-                else if (distance2 == distance1)
-                {
-                    int health1 = enemies_p->at(index).stats.health;
-                    int health2 = enemies_p->at(i).stats.health;
-
-                    if (health2 < health1 || (health2 == health1 && (rand() % 2) == 1))
-                    {
-                        index = i;
-                    }
-                }
-            }
-
-            enemies_p->at(index).stats.takeDamage(10);
-        }
-
+        direction = checkObj(board, units, newPosition, player_p, direction);
         finalMove(board, player_p, newPosition);
     }
 

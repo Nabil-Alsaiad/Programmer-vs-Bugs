@@ -27,6 +27,42 @@
 using namespace std;
 using namespace pf;
 
+bool endGame(bool hasWon)
+{
+     if (hasWon)
+     {
+          cout << "\n========\nGAME WON\n========\n"
+               << "\nProgrammer has successfully fixed all the bugs, the time and effort spent in watching tutorials, reading documentations and solving problems has paid off.Don't underestimate the learning journey and don't look at it's length and difficulty, because it's what will make you able to fix those silly bugs that pop up everywhere all the time.\n\n";
+     }
+     else
+     {
+          cout << "\n=========\nGAME OVER\n=========\n"
+               << "\nProgrammer has lost his mind while trying to fix the bugs.\nTaking a break and planning the code is much better than trial and error, also don't relay on AI or copy pasting and focus on improving your programming basics.\n\n";
+     }
+
+     do
+     {
+          cout << "Do you want to play again? (y/n) => ";
+
+          char answer;
+          cin >> answer;
+
+          if (answer == 'y')
+          {
+               return true;
+          }
+          else if (answer == 'n')
+          {
+               return false;
+          }
+          else
+          {
+               cout << "Wrong input!!\n";
+          }
+
+     } while (true);
+}
+
 void settingsMenu(Setting &settings)
 {
      while (true)
@@ -39,7 +75,7 @@ void settingsMenu(Setting &settings)
      }
 }
 
-void gameMenu(Board &board, Rounds &rounds, Units &units)
+bool gameMenu(Board &board, Rounds &rounds, Units &units)
 {
      bool playerDied;
 
@@ -50,27 +86,30 @@ void gameMenu(Board &board, Rounds &rounds, Units &units)
                // ClearScreen();
                cout << "\nNEW SCREEN ================================\n\n";
 
-               board.display();
-               rounds.drawUnitsBoard(units, false);
-               board.spawnFeatures(units.getEnemiesPointer());
-
-               Pause();
-               board.clearTrials();
+               bool allEnemiesAreDead = board.spawnFeatures(units.getEnemiesPointer());
+               if (allEnemiesAreDead)
+               {
+                    return endGame(true);
+               }
+               else
+               {
+                    board.display();
+                    rounds.drawUnitsBoard(units, false);
+                    Pause();
+                    board.clearTrials();
+               }
           }
 
           // ClearScreen();
           cout << "\nNEW SCREEN ================================\n\n";
 
-          board.display();
-          rounds.drawUnitsBoard(units);
-
           if (playerDied)
           {
-               cout << "\nGAME OVER\n"
-                    << "Programmer has lost his mind while trying to fix the bugs.\n"
-                    << "Taking a break and planning the code is much better than trial and error, also don't relay on AI or copy pasting and focus on improving your programming basics\n";
-               break;
+               return endGame(false);
           }
+
+          board.display();
+          rounds.drawUnitsBoard(units);
 
           bool roundEnded = true;
 
@@ -80,8 +119,14 @@ void gameMenu(Board &board, Rounds &rounds, Units &units)
           }
           else
           {
-               playerDied = rounds.playEnemyRound(board, units);
-               Pause();
+               vector<Unit> *enemies_p = units.getEnemiesPointer();
+               Unit *enemy_p = &(enemies_p->at(rounds.getEnemyRoundIndex()));
+
+               if (enemy_p->stats.health > 0)
+               {
+                    playerDied = rounds.playEnemyRound(board, units.getPlayerPointer(), enemy_p);
+                    Pause();
+               }
           }
 
           if (roundEnded)
@@ -96,14 +141,23 @@ int main()
      srand(time(NULL));
 
      Setting settings;
-     settingsMenu(settings);
 
-     Units units(settings.getBugCount());
-     Board board(settings.getDimensions());
-     Rounds rounds;
+     while (true)
+     {
+          settingsMenu(settings);
 
-     board.fillUnits(units);
-     gameMenu(board, rounds, units);
+          Units units(settings.getBugCount());
+          Board board(settings.getDimensions());
+          Rounds rounds;
+
+          board.fillUnits(units);
+          bool restart = gameMenu(board, rounds, units);
+
+          if (!restart)
+          {
+               break;
+          }
+     }
 
      return 0;
 }

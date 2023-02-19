@@ -28,3 +28,8 @@ bool Point::isEqual(const Point pointToCompare) const
 {
     return x == pointToCompare.x && y == pointToCompare.y;
 }
+
+bool Point::isNull() const
+{
+    return x < 0 && y < 0;
+}

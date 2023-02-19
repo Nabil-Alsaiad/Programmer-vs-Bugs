@@ -23,8 +23,9 @@ public:
     void increaseRound();
 
     bool isPlayerRound() const;
+    int getEnemyRoundIndex() const;
 
-    bool playEnemyRound(Board &board, Units &units) const;
+    bool playEnemyRound(Board &board, Unit *player_p, Unit *enemy_p) const;
     void drawUnitsBoard(const Units &units, bool drawArrow = true) const;
 };
 

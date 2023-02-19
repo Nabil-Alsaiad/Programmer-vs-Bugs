@@ -29,6 +29,54 @@ Stats Units::generateRandomStats() const
     return Stats(roundedHealth, randomDamage, randomRange);
 }
 
+float calculateDistance(const Point &originalPosition, const Point &targetPosition)
+{
+    int distanceX = abs(targetPosition.x - originalPosition.x);
+    int distanceY = abs(targetPosition.y - originalPosition.y);
+
+    return (distanceX + distanceY) / 2.0f;
+}
+Point Units::attackClosestEnemy(Point &attackerPosition)
+{
+    int index = 0;
+
+    for (int i = 1; i < enemies_.size(); i++)
+    {
+        if (enemies_.at(i).stats.health == 0)
+        {
+            continue;
+        }
+
+        float distance1 = calculateDistance(attackerPosition, enemies_.at(index).position);
+        float distance2 = calculateDistance(attackerPosition, enemies_.at(i).position);
+
+        if (distance2 < distance1)
+        {
+            index = i;
+        }
+        else if (distance2 == distance1)
+        {
+            int health1 = enemies_.at(index).stats.health;
+            int health2 = enemies_.at(i).stats.health;
+
+            if (health2 < health1 || (health2 == health1 && (rand() % 2) == 1))
+            {
+                index = i;
+            }
+        }
+    }
+
+    bool enemyDied = enemies_.at(index).stats.takeDamage(10);
+    if (enemyDied)
+    {
+        return enemies_.at(index).position;
+    }
+    else
+    {
+        return Point();
+    }
+}
+
 Unit Units::getPlayer() const
 {
     return player_;

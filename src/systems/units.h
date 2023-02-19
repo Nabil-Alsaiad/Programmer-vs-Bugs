@@ -6,6 +6,7 @@
 #include <cmath>
 #include <vector>
 #include <string>
+#include "point.h"
 #include "../units/unit.h"
 #include "../units/unitstype.h"
 
@@ -25,6 +26,7 @@ public:
 
     void fillUnits(Point boardCenter, vector<Point> randomPoints);
     Stats generateRandomStats() const;
+    Point attackClosestEnemy(Point &attackerPosition);
 
     Unit getPlayer() const;
     vector<Unit> getEnemies() const;

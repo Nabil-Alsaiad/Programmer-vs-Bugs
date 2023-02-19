@@ -27,14 +27,14 @@ bool Rounds::isPlayerRound() const
     return gameRound_ == playerRound_;
 }
 
-bool Rounds::playEnemyRound(Board &board, Units &units) const
+int Rounds::getEnemyRoundIndex() const
+{
+    return gameRound_ - 1;
+}
+
+bool Rounds::playEnemyRound(Board &board, Unit *player_p, Unit *enemy_p) const
 {
     vector<char> directions = {'^', 'v', '>', '<'};
-    vector<Unit> *enemies_p = units.getEnemiesPointer();
-    Unit *player_p = units.getPlayerPointer();
-
-    int enemyIndex = gameRound_ - 1;
-    Unit *enemy_p = &(enemies_p->at(enemyIndex));
 
     while (!directions.empty())
     {

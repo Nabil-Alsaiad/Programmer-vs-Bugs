@@ -21,18 +21,15 @@ private:
     Point dim_;
 
     char trailSymbol_ = '.';
-    int objectsArraySize_ = 13;
-    char objects[13] = {' ', ' ', ' ', ' ', ' ', ' ', 'a', 'c', 's', '<', '>', 'v', '^'};
-    // a = artificial intelligence (pod)
-    // c = coffee (health pack)
-    // s = search (rock)
+    int objectsArraySize_ = 19;
+    char objects[19] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', 's', 'c', 'a', 'a', '<', '<', '>', '>', 'v', 'v', '^', '^'};
 
 public:
-    Board(Point dim = Point(15, 5));
+    Board(Point dim = Point(13, 5));
     void initialize();
     void fillUnits(Units &units);
     void display() const;
-    void spawnFeatures(vector<Unit> *enemies_p);
+    bool spawnFeatures(vector<Unit> *enemies_p);
 
     int getDimX() const;
     int getDimY() const;

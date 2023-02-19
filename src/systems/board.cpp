@@ -76,13 +76,13 @@ void Board::display() const
     cout << "  ";
     for (int x = 0; x < dim_.x; ++x)
     {
-        int digit = (x + 1) / 10;
+        int number = (x + 1) / 10;
         cout << " ";
 
-        if (digit == 0)
+        if (number == 0)
             cout << " ";
         else
-            cout << digit;
+            cout << number;
     }
     cout << "\n  ";
     for (int x = 0; x < dim_.x; ++x)
@@ -93,11 +93,12 @@ void Board::display() const
 #pragma endregion
 }
 
-void Board::spawnFeatures(vector<Unit> *enemies_p)
+bool Board::spawnFeatures(vector<Unit> *enemies_p)
 {
     int featuresToSpawn = 0;
+    int enemyCount = enemies_p->size();
 
-    for (int i = 0; i < enemies_p->size(); i++)
+    for (int i = 0; i < enemyCount; i++)
     {
         if (enemies_p->at(i).stats.health == 0)
         {
@@ -105,31 +106,39 @@ void Board::spawnFeatures(vector<Unit> *enemies_p)
         }
     }
 
-    for (int i = 1; i <= dim_.y; i++)
+    if (featuresToSpawn == enemyCount)
     {
-        for (int j = 1; j <= dim_.x; j++)
+        return true;
+    }
+
+    if (featuresToSpawn > 0)
+    {
+        for (int i = 1; i <= dim_.y; i++)
         {
-            Point position = Point(j, i);
-            cout << position.toString() + "\n";
-            if (getObject(position) == 'f')
+            for (int j = 1; j <= dim_.x; j++)
             {
+                if (getObject(Point(j, i)) == 'f')
+                {
+                    featuresToSpawn--;
+                }
+            }
+        }
+
+        while (featuresToSpawn > 0)
+        {
+            Point position = getRandomPoint();
+            char object = getObject(position);
+
+            bool canSpawn = object != 'a' && object != 'P' && object != 'B' && object != 's' && object != 'f' && object != 'c';
+            if (canSpawn)
+            {
+                setObject(position, 'f');
                 featuresToSpawn--;
             }
         }
     }
 
-    while (featuresToSpawn > 0)
-    {
-        Point position = getRandomPoint();
-        char object = getObject(position);
-
-        bool canSpawn = object != 'a' && object != 'P' && object != 'B' && object != 's' && object != 'f' && object != 'c';
-        if (canSpawn)
-        {
-            setObject(position, 'f');
-            featuresToSpawn--;
-        }
-    }
+    return false;
 }
 
 int Board::getDimX() const
@@ -172,8 +181,8 @@ void Board::setObject(const Point &position, char ch)
 
 bool Board::isInsideMap(const Point &position) const
 {
-    bool isInsideHorizontally = position.x >= 0 && position.x <= dim_.x;
-    bool isInsideVertically = position.y >= 0 && position.y <= dim_.y;
+    bool isInsideHorizontally = position.x > 0 && position.x <= dim_.x;
+    bool isInsideVertically = position.y > 0 && position.y <= dim_.y;
     return isInsideHorizontally && isInsideVertically;
 }
 
@@ -185,15 +194,18 @@ char Board::getRandomObject() const
 
 Point Board::getRandomPoint() const
 {
-    int randomX = rand() % dim_.x + 1;
-    int randomY = rand() % dim_.y + 1;
+    int randomX = rand() % dim_.x;
+    int randomY = rand() % dim_.y;
 
-    return Point(randomX, randomY);
+    return Point(randomX + 1, randomY + 1);
 }
 
 Point Board::getCenterPosition() const
 {
-    return Point((dim_.x / 2) + 1, (dim_.y / 2) + 1);
+    int centerX = dim_.x / 2;
+    int centerY = dim_.y / 2;
+
+    return Point(centerX + 1, centerY + 1);
 }
 
 void Board::markAsTrial(const Point &position)

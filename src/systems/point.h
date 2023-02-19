@@ -11,10 +11,11 @@ struct Point
 {
 public:
     int x, y;
-    Point(int x = 0, int y = 0);
+    Point(int x = -1, int y = -1);
     string toString() const;
 
     bool isEqual(const Point pointToCompare) const;
+    bool isNull() const;
 };
 
 #endif

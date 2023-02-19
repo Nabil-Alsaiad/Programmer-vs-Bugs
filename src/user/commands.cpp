@@ -35,25 +35,23 @@ void printCommands()
 void checkMoveCommand(Board &board, Units &units)
 {
     string input;
+    char arrow;
+    bool isInputWrong;
 
-    while (true)
+    do
     {
-        cout << "Provide movement direction: (u/up | d/down | r/right | l/left)> ", cin >> input;
+        cout << "Provide movement direction: (u/up | d/down | r/right | l/left) => ";
+        cin >> input;
 
-        bool isUp = input == "u" || input == "up";
-        bool isDown = input == "d" || input == "down";
-        bool isRight = input == "r" || input == "right";
-        bool isLeft = input == "l" || input == "left";
+        arrow = convertDirectionToArrow(input);
+        isInputWrong = arrow == ' ';
 
-        if (isUp || isDown || isRight || isLeft)
+        if (isInputWrong)
         {
-            break;
+            cout << "Wrong input!\n";
         }
+    } while (isInputWrong);
 
-        cout << "Wrong input!\n";
-    }
-
-    char arrow = convertDirectionToArrow(input);
     movePlayer(board, units, arrow);
 }
 
@@ -61,16 +59,24 @@ void checkArrowCommand(Board &board)
 {
     int x, y;
     string dir;
+    Point pos;
 
-    cout << "Provide arrow location and new direction: x y (u|d|r|l)> ", cin >> x >> y >> dir;
+    while (true)
+    {
+        cout << "Provide arrow location and new direction: x y (u|d|r|l) => ", cin >> x >> y >> dir;
 
-    Point pos(x, y);
-    char obj = board.getObject(pos);
+        pos = Point(x, y);
+        char obj = board.getObject(pos);
 
-    // if (obj != ">" && obj != "<" && obj != "^" && obj != "v")
-    // {
-    //     cout << "Wrong location! choose again";
-    // }
+        if (obj != '>' && obj != '<' && obj != '^' && obj != 'v')
+        {
+            cout << "Wrong location! choose again";
+        }
+        else
+        {
+            break;
+        }
+    }
 
     board.setObject(pos, convertDirectionToArrow(dir));
 }
