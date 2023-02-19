@@ -32,7 +32,7 @@ public:
     void initialize();
     void fillUnits(Units &units);
     void display() const;
-    void spawnFeature();
+    void spawnFeatures(vector<Unit> *enemies_p);
 
     int getDimX() const;
     int getDimY() const;

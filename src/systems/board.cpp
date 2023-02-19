@@ -2,7 +2,6 @@
 
 Board::Board(Point dim)
 {
-    // map_ = vector<vector<char>>();
     trailPoints_ = vector<Point>();
     dim_ = dim;
 
@@ -96,40 +95,42 @@ void Board::display() const
 #pragma endregion
 }
 
-void Board::spawnFeature(vector <Unit> *enemies){
-    int fixedBugs = 0;
+void Board::spawnFeatures(vector<Unit> *enemies_p)
+{
+    int featuresToSpawn = 0;
 
-    for (int i = 0; i < enemies->size(); i++){
-
-        bool checkHealth = enemies->at(i).stats.health == 0;
-        if(checkHealth){
-            fixedBugs += 1;
+    for (int i = 0; i < enemies_p->size(); i++)
+    {
+        if (enemies_p->at(i).stats.health == 0)
+        {
+            featuresToSpawn++;
         }
     }
 
-    for(int i = 0; i < dim_.y; i++){
-        for(int j = 0; j < dim_.x; j++){
-            char object = getObject(Point(j ,i));
-
-            if(object == 'f'){
-                fixedBugs -= 1;
+    for (int i = 1; i <= dim_.y; i++)
+    {
+        for (int j = 1; j <= dim_.x; j++)
+        {
+            Point position = Point(j, i);
+            cout << position.toString() << endl;
+            if (getObject(position) == 'f')
+            {
+                featuresToSpawn--;
             }
         }
     }
 
-    while(fixedBugs > 0){
-
-        Point position = getRandomPoint(); 
+    while (featuresToSpawn > 0)
+    {
+        Point position = getRandomPoint();
         char object = getObject(position);
-        bool isThere = object == 'a' || object == 'P' || object == 'B' || object == 's' || object == 'f' || object == 'c';
 
-        if(!isThere){
+        bool canSpawn = object != 'a' && object != 'P' && object != 'B' && object != 's' && object != 'f' && object != 'c';
+        if (canSpawn)
+        {
             setObject(position, 'f');
-            fixedBugs -= 1;
+            featuresToSpawn--;
         }
-
-        
-
     }
 }
 
@@ -173,8 +174,8 @@ void Board::setObject(const Point &position, char ch)
 
 bool Board::isInsideMap(const Point &position) const
 {
-    bool isInsideHorizontally = position.x > 0 && position.x <= dim_.x;
-    bool isInsideVertically = position.y > 0 && position.y <= dim_.y;
+    bool isInsideHorizontally = position.x >= 0 && position.x <= dim_.x;
+    bool isInsideVertically = position.y >= 0 && position.y <= dim_.y;
     return isInsideHorizontally && isInsideVertically;
 }
 

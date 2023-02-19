@@ -52,6 +52,7 @@ void gameMenu(Board &board, Rounds &rounds, Units &units)
 
                board.display();
                rounds.drawUnitsBoard(units, false);
+               board.spawnFeatures(units.getEnemiesPointer());
 
                Pause();
                board.clearTrials();
